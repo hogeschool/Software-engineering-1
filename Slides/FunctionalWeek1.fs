@@ -7,6 +7,8 @@ open Interpreter
 
 let slides =
   [
+    LambdaStateTrace(TextSize.Tiny, ((((And >>> True) >>> True) >>> !!"T") >>> !!"F"), None)
+
     Section("Introduction")
     SubSection("Lecture topics")
     ItemsBlock
@@ -72,7 +74,7 @@ let slides =
             !"An interpreter for the lambda calculus  (with a parser for an extra challenge)"
           ]
 
-        TextBlock @"We will get together at the end of the course, and the teacher(s) will remove a few lines from each of your applications. \textbf{Individually} you will have to restore them within a few hours."
+        TextBlock @"We will get together at the end of the course, and the teacher(s) will ask you to \textbf{individually} perform some activities on the code to prove understanding and familiarity."
       ]
 
     Section "Semantics of traditional programming languages"
