@@ -7,7 +7,7 @@ open Interpreter
 
 let slides =
   [
-    LambdaStateTrace(TextSize.Tiny, ((((And >>> True) >>> True) >>> !!"T") >>> !!"F"), None)
+    //LambdaStateTrace(TextSize.Tiny, ((((And >>> True) >>> True) >>> !!"T") >>> !!"F"), None)
 
     Section("Introduction")
     SubSection("Lecture topics")
