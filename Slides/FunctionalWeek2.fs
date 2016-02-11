@@ -9,15 +9,20 @@ let slides =
   [
     Section("Introduction")
     SubSection("Lecture topics")
-    VerticalStack
+    ItemsBlock
       [
-        TextBlock "Simply typed lambda calculus"
-        TextBlock "Make it pretty: delta rules"
-        TextBlock "Booleans, boolean logic, if-then-else"
-        TextBlock "Naturals"
-        TextBlock "Let and let-rec"
-        TextBlock "Making it real: F\# and Haskell"
+        !"Make it pretty: delta rules"
+        !"Booleans, boolean logic operators, if-then-else"
+        !"Naturals, arithmetic operators, comparison operators"
+        !"Let-binding and let rec"
+        !"Tuples"
+        !"Discriminated unions"
+        !"Lists"
       ]
+
+    LambdaStateTrace(TextSize.Small, ((Plus >>> !!"2") >>> !!"1"), None)
+
+    LambdaStateTrace(TextSize.Small, ((And >>> True) >>> True), None)
 
 //    VerticalStack
 //      [
@@ -25,7 +30,6 @@ let slides =
 //        LambdaCodeBlock(TextSize.Tiny, ChurchNumerals.plus)
 //      ]
 //
-//    LambdaStateTrace(TextSize.Tiny, ((((And >>> True) >>> True) >>> !!"T") >>> !!"F"))
 //
 //    VerticalStack
 //      [

@@ -52,6 +52,8 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
+    <None Include="INFSEN02-1-Lec1-Lambda-calculus.pdf" />
+    <None Include="INFSEN02-1-Lec2-Delta-rules.pdf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\LatexSlideGenerator\Slides\LatexSlidesGenerator.fsproj">

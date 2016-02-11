@@ -29,8 +29,8 @@ let slides =
 
     ItemsBlock
       [
-        !"We will begin with a short discussion on traditional programming language \textbf{semantics}"
-        !"We will then show the \textbf{lambda calculus}, which is the foundation for functional languages"
+        ! @"We will begin with a short discussion on traditional programming language \textbf{semantics}"
+        ! @"We will then show the \textbf{lambda calculus}, which is the foundation for functional languages"
         VerticalStack
           [
           !"We will then bridge the gap between theory and practice"
@@ -55,7 +55,7 @@ let slides =
       [
         !"One question on a lambda calculus program execution"
         !"One question on the type system of a lambda calculus program, F\# program, or Haskell program"
-        !"Both questions must be answered correctly to get a \textbf{voldoende}"
+        ! @"Both questions must be answered correctly to get a \textbf{voldoende}"
       ]
 
     SubSection("Practical exam")
@@ -165,14 +165,14 @@ let slides =
       [
         TextBlock "A simple example would be the identity function, which just returns whatever it gets as input"
 
-        LambdaCodeBlock(TextSize.Tiny, "x" ==> !!"x")
+        LambdaCodeBlock(TextSize.Small, "x" ==> !!"x")
       ]
 
     VerticalStack
       [
         TextBlock "We can call this function with a variable as argument, by writing:"
 
-        LambdaCodeBlock(TextSize.Tiny, ("x" ==> !!"x") >>> !!"v")
+        LambdaCodeBlock(TextSize.Small, ("x" ==> !!"x") >>> !!"v")
       ]
 
     SubSection "Beta reduction"
@@ -193,7 +193,7 @@ let slides =
         TextBlock @"$t [ x \mapsto u ]$ means that we change variable $x$ with $u$ within $t$"
       ]
 
-    LambdaStateTrace(TextSize.Tiny, ("x" ==> !!"x") >>> !!"v", Option.None)
+    LambdaStateTrace(TextSize.Small, ("x" ==> !!"x") >>> !!"v", Option.None)
 
     VerticalStack
       [
@@ -230,17 +230,17 @@ let slides =
       [
         TextBlock "We can encode functions with multiple parameters by nesting lambda abstractions:"
 
-        LambdaCodeBlock(TextSize.Tiny, "x" ==> ("y" ==> (!!"x" >>> !!"y")))
+        LambdaCodeBlock(TextSize.Small, "x" ==> ("y" ==> (!!"x" >>> !!"y")))
       ]
 
     VerticalStack
       [
         TextBlock "The parameters are then given one at a time:"
 
-        LambdaCodeBlock(TextSize.Tiny, (("x" ==> ("y" ==> (!!"x" >>> !!"y"))) >>> !!"A") >>> !!"B")
+        LambdaCodeBlock(TextSize.Small, (("x" ==> ("y" ==> (!!"x" >>> !!"y"))) >>> !!"A") >>> !!"B")
       ]
 
-    LambdaStateTrace(TextSize.Tiny, (("x" ==> ("y" ==> (!!"x" >>> !!"y"))) >>> !!"A") >>> !!"B", Option.None)
+    LambdaStateTrace(TextSize.Small, (("x" ==> ("y" ==> (!!"x" >>> !!"y"))) >>> !!"A") >>> !!"B", Option.None)
 
     Section "Closing up"
     SubSection "Example executions of (apparently) nonsensical programs"
@@ -254,53 +254,53 @@ let slides =
       [
         Question "What is the result of this program execution?"
 
-        LambdaCodeBlock(TextSize.Tiny, (("x" ==> ("y" ==> (!!"x" >>> !!"y")) >>> ("z" ==> (!!"z" >>> !!"z"))) >>> !!"A"))
+        LambdaCodeBlock(TextSize.Small, (("x" ==> ("y" ==> (!!"x" >>> !!"y")) >>> ("z" ==> (!!"z" >>> !!"z"))) >>> !!"A"))
       ]
 
-    LambdaStateTrace(TextSize.Tiny, (("x" ==> ("y" ==> (!!"x" >>> !!"y")) >>> ("z" ==> (!!"z" >>> !!"z"))) >>> !!"A"), Option.None)
+    LambdaStateTrace(TextSize.Small, (("x" ==> ("y" ==> (!!"x" >>> !!"y")) >>> ("z" ==> (!!"z" >>> !!"z"))) >>> !!"A"), Option.None)
 
     VerticalStack
       [
         Question "What is the result of this program execution? Watch out for the scope of the two ``x'' variables!"
 
-        LambdaCodeBlock(TextSize.Tiny, ("x" ==> ("x" ==> (!!"x" >>> !!"x")) >>> !!"A") >>> !!"B")
+        LambdaCodeBlock(TextSize.Small, ("x" ==> ("x" ==> (!!"x" >>> !!"x")) >>> !!"A") >>> !!"B")
       ]
 
-    LambdaStateTrace(TextSize.Tiny, ("x" ==> ("x" ==> (!!"x" >>> !!"x")) >>> !!"A") >>> !!"B", Option.None)
+    LambdaStateTrace(TextSize.Small, ("x" ==> ("x" ==> (!!"x" >>> !!"x")) >>> !!"A") >>> !!"B", Option.None)
 
     VerticalStack
       [
         TextBlock "The first ``x'' gets replaced with ``A'', but the second ``x'' shadows it!"
 
-        LambdaCodeBlock(TextSize.Tiny, ("x" ==> ("x" ==> (!!"x" >>> !!"x")) >>> !!"A") >>> !!"B")
+        LambdaCodeBlock(TextSize.Small, ("x" ==> ("x" ==> (!!"x" >>> !!"x")) >>> !!"A") >>> !!"B")
       ]
 
     VerticalStack
       [
         TextBlock "A better formulation, less ambiguous, would turn:"
 
-        LambdaCodeBlock(TextSize.Tiny, ("x" ==> ("x" ==> (!!"x" >>> !!"x")) >>> !!"A") >>> !!"B")
+        LambdaCodeBlock(TextSize.Small, ("x" ==> ("x" ==> (!!"x" >>> !!"x")) >>> !!"A") >>> !!"B")
 
         TextBlock "...into:"
 
-        LambdaCodeBlock(TextSize.Tiny, ("y" ==> ("x" ==> (!!"x" >>> !!"x")) >>> !!"A") >>> !!"B")
+        LambdaCodeBlock(TextSize.Small, ("y" ==> ("x" ==> (!!"x" >>> !!"x")) >>> !!"A") >>> !!"B")
       ]
 
-    LambdaStateTrace(TextSize.Tiny, ("y" ==> ("x" ==> (!!"x" >>> !!"x")) >>> !!"A") >>> !!"B", Option.None)
+    LambdaStateTrace(TextSize.Small, ("y" ==> ("x" ==> (!!"x" >>> !!"x")) >>> !!"A") >>> !!"B", Option.None)
 
 
     VerticalStack
       [
         Question "What is the result of this program execution? Is there even a result?"
 
-        LambdaCodeBlock(TextSize.Tiny, ("x" ==> (!!"x" >>> !!"x")) >>> ("x" ==> (!!"x" >>> !!"x")))
+        LambdaCodeBlock(TextSize.Small, ("x" ==> (!!"x" >>> !!"x")) >>> ("x" ==> (!!"x" >>> !!"x")))
       ]
 
-    LambdaStateTrace(TextSize.Tiny, ("x" ==> (!!"x" >>> !!"x")) >>> ("x" ==> (!!"x" >>> !!"x")), Some 2)
+    LambdaStateTrace(TextSize.Small, ("x" ==> (!!"x" >>> !!"x")) >>> ("x" ==> (!!"x" >>> !!"x")), Some 2)
 
     VerticalStack
       [
-        LambdaCodeBlock(TextSize.Tiny, ("x" ==> (!!"x" >>> !!"x")) >>> ("x" ==> (!!"x" >>> !!"x")))
+        LambdaCodeBlock(TextSize.Small, ("x" ==> (!!"x" >>> !!"x")) >>> ("x" ==> (!!"x" >>> !!"x")))
 
         TextBlock @"It never ends! Like a \texttt{while true: ..}!"
       ]
