@@ -5,6 +5,8 @@ open SlideDefinition
 open CodeDefinitionLambda
 open Interpreter
 
+let LambdaStateTrace(x,y,z) = LambdaStateTrace(x,y,z,true,true,true)
+
 let slides =
   [
     Section("Introduction")
