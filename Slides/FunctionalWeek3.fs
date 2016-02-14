@@ -5,13 +5,10 @@ open SlideDefinition
 open CodeDefinitionLambda
 open Interpreter
 
+// highlighting must split terms which are too long
+
 let slides =
   [
-//    LambdaStateTrace(TextSize.Small, Let("age",!!"9",(Plus >>> !!"age") >>> !!"age"), None, false, false, true)
-//    TextBlock "Shortened test" ////////////////////////////////////////////////////////////////////////
-//    LambdaStateTrace(TextSize.Small, Let("age",(Plus >>> !!"9") >>> !!"1",(Plus >>> !!"age") >>> !!"age"), None, false, false, false)
-//    LambdaStateTrace(TextSize.Small, ((If >>> ((And >>> (IsZero >>> !!"0")) >>> False) >>> !!"0") >>> ((Plus >>> !!"1") >>> !!"3")), None, false, false, false)
-
     Section("Introduction")
     SubSection("Lecture topics")
     ItemsBlock
@@ -37,9 +34,9 @@ let slides =
         ! @"This makes code significantly more readable, as it looks like a series of declarations top-to-bottom"
     ]
 
-//    LambdaStateTrace(TextSize.Small, Let("age",!!"9",(Plus >>> !!"age") >>> !!"age"), None, false, false, true)
+    LambdaStateTrace(TextSize.Small, Let("age",!!"9",(Plus >>> !!"age") >>> !!"age"), None, false, false, true)
 
-    Section( @"\texttt{Recursive functions and let-rec}")
+    Section( @"Recursive functions and  \texttt{let-rec}")
     SubSection("Idea")
     ItemsBlock
       [
@@ -49,7 +46,7 @@ let slides =
 
     ItemsBlock
       [
-        ! @"Recursive functions are a bit of an issue"
+        ! @"This is a bit of an issue"
         ! @"A function is just a lambda term, which does not have a name"
         ! @"If the function does not have a name, how do we call it from its own body?"
       ]
@@ -57,29 +54,45 @@ let slides =
     ItemsBlock
       [
         ! @"We can define a recursive function as a function with an extra parameter"
-        ! @"A function is just a lambda term, which does not have a name"
-        ! @"If the function does not have a name, how do we call it from its own body?"
+        ! @"Calling the extra parameter will result in calling the function itself"
       ]
 
-//    Section(@"Data structures")
-//    SubSection("Overview")
-//    ItemsBlock
-//      [
-//        ! @"We now move into the realm of "
-//        ! @"This construct is called \texttt{let-in}"
-//        ! @"We could then say something like \texttt{let age = 9 in age + age}"
-//        ! @"We can nest \texttt{let-in} constructs, and then say something like \texttt{let age = 9 in (let x = 2 in age * x)}"
-//        Pause
-//        ! @"This makes code significantly more readable"
-//    ]
-//
-//    LambdaStateTrace(TextSize.Small, Let("age",!!"2",(Plus >>> !!"age") >>> !!"age"), None)
-//
-//        !"Tuples"
-//        !"Discriminated unions"
-//        !"Lists"
-//        !"Let-rec"
-//        Alternate lambda trace that prints less information
+    VerticalStack
+      [
+        TextBlock @"For example, the factorial function becomes"
+        LambdaCodeBlock(TextSize.Small, "f" ==> ("n" ==> ((If >>> (IsZero >>> !!"n") >>> !!"1") >>> ((Mult >>> (!!"f" >>> ((Minus >>> !!"n") >>> !!"1"))) >>> !!"n"))))
+      ]
+
+    VerticalStack
+      [
+        ItemsBlock
+          [
+            ! @"We now need an external operator that handles recursive functions properly"
+            ! @"This must ensure that a recursive function gets itself as a parameter, in an endless chain"
+            ! @"This combinator is known as \texttt{fixpoint} operator"
+          ]
+
+        LambdaCodeBlock(TextSize.Small, (deltaRules Fix).Value)
+      ]
+
+    LambdaStateTrace(TextSize.Small, (Fix >>> ("f" ==> ("n" ==> ((If >>> (IsZero >>> !!"n") >>> !!"1") >>> ((!!"f" >>> ((Minus >>> !!"n") >>> !!"1"))))))) >>> !!"2", 
+                      Option.None, false, false, false)
+
+    VerticalStack
+      [
+        TextBlock "We can now try our hand at a factorial computation"
+
+        LambdaCodeBlock(TextSize.Small, (Fix >>> ("f" ==> ("n" ==> ((If >>> (IsZero >>> !!"n") >>> !!"1") >>> ((Mult >>> (!!"f" >>> ((Minus >>> !!"n") >>> !!"1"))) >>> !!"n"))))) >>> !!"2")
+      ]
+    LambdaStateTrace(TextSize.Small, (Fix >>> ("f" ==> ("n" ==> ((If >>> (IsZero >>> !!"n") >>> !!"1") >>> ((Mult >>> (!!"f" >>> ((Minus >>> !!"n") >>> !!"1"))) >>> !!"n"))))) >>> !!"2", 
+                      Option.None, false, false, false)
+
+
+// tuples
+// discriminated unions
+// lists
+
+
 //    Section "Conclusion"
 //    SubSection(@"Recap")
 //    ItemsBlock[
@@ -96,4 +109,11 @@ let slides =
 //      ]
 
   ]
+
+
+// A series of tests
+//    LambdaStateTrace(TextSize.Small, ((If >>> ((And >>> (IsZero >>> !!"0")) >>> False) >>> !!"0") >>> ((Plus >>> !!"1") >>> !!"3")), None, false, false, false)
+//    LambdaStateTrace(TextSize.Small, Let("age",!!"9",(Plus >>> !!"age") >>> !!"age"), None, false, false, true)
+//    TextBlock "Shortened test" ////////////////////////////////////////////////////////////////////////
+//    LambdaStateTrace(TextSize.Small, Let("age",(Plus >>> !!"9") >>> !!"1",(Plus >>> !!"age") >>> !!"age"), None, false, false, false)
 
