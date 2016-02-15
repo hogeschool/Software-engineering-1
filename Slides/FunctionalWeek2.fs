@@ -83,7 +83,6 @@ let slides =
       ]
 
     LambdaStateTrace(TextSize.Small, True >>> !!"bit1" >>> !!"bit0", None)
-    LambdaStateTrace(TextSize.Small, False >>> !!"bit1" >>> !!"bit0", None)
 
     SubSection(@"\texttt{AND}")
     ItemsBlock
@@ -96,15 +95,6 @@ let slides =
 
     TextBlock(@"Let us begin to with \texttt{TRUE} $\wedge$ \texttt{TRUE} $\rightarrow_\beta$ \texttt{TRUE}")
     LambdaStateTrace(TextSize.Small, ((And >>> True) >>> True), None)
-
-    TextBlock(@"Let us move to \texttt{TRUE} $\wedge$ \texttt{FALSE} $\rightarrow_\beta$ \texttt{FALSE}")
-    LambdaStateTrace(TextSize.Small, ((And >>> True) >>> False), None)
-
-    TextBlock(@"Let us move to \texttt{FALSE} $\wedge$ \texttt{TRUE} $\rightarrow_\beta$ \texttt{FALSE}")
-    LambdaStateTrace(TextSize.Small, ((And >>> False) >>> True), None)
-
-    TextBlock(@"Let us move to \texttt{FALSE} $\wedge$ \texttt{FALSE} $\rightarrow_\beta$ \texttt{FALSE}")
-    LambdaStateTrace(TextSize.Small, ((And >>> False) >>> False), None)
 
     VerticalStack
       [
@@ -124,12 +114,6 @@ let slides =
 
     TextBlock(@"Let us begin to with \texttt{TRUE} $\vee$ \texttt{TRUE} $\rightarrow_\beta$ \texttt{TRUE}")
     LambdaStateTrace(TextSize.Small, ((Or >>> True) >>> True), None)
-    TextBlock(@"Let us begin to with \texttt{TRUE} $\vee$ \texttt{FALSE} $\rightarrow_\beta$ \texttt{TRUE}")
-    LambdaStateTrace(TextSize.Small, ((Or >>> True) >>> False), None)
-    TextBlock(@"Let us begin to with \texttt{False} $\vee$ \texttt{TRUE} $\rightarrow_\beta$ \texttt{TRUE}")
-    LambdaStateTrace(TextSize.Small, ((Or >>> False) >>> True), None)
-    TextBlock(@"Let us begin to with \texttt{FALSE} $\vee$ \texttt{FALSE} $\rightarrow_\beta$ \texttt{FALSE}")
-    LambdaStateTrace(TextSize.Small, ((Or >>> False) >>> False), None)
 
     SubSection(@"\texttt{if-then-else}")
     ItemsBlock
@@ -238,5 +222,27 @@ let slides =
         ! @"From now on we will start ignoring the reduction steps for simple terms such as \texttt{3+3}"
         ! @"We will instead focus on more complex data structures, such as tuples, discriminated unions, and even lists"
       ]
+
+    Section "Appendix"
+    SubSection("False derivation")
+    LambdaStateTrace(TextSize.Small, False >>> !!"bit1" >>> !!"bit0", None)
+
+    SubSection(@"Remaining and derivations")
+    TextBlock(@"Let us move to \texttt{TRUE} $\wedge$ \texttt{FALSE} $\rightarrow_\beta$ \texttt{FALSE}")
+    LambdaStateTrace(TextSize.Small, ((And >>> True) >>> False), None)
+
+    TextBlock(@"Let us move to \texttt{FALSE} $\wedge$ \texttt{TRUE} $\rightarrow_\beta$ \texttt{FALSE}")
+    LambdaStateTrace(TextSize.Small, ((And >>> False) >>> True), None)
+
+    TextBlock(@"Let us move to \texttt{FALSE} $\wedge$ \texttt{FALSE} $\rightarrow_\beta$ \texttt{FALSE}")
+    LambdaStateTrace(TextSize.Small, ((And >>> False) >>> False), None)
+
+    SubSection("Remaining or derivations")
+    TextBlock(@"Let us begin to with \texttt{TRUE} $\vee$ \texttt{FALSE} $\rightarrow_\beta$ \texttt{TRUE}")
+    LambdaStateTrace(TextSize.Small, ((Or >>> True) >>> False), None)
+    TextBlock(@"Let us begin to with \texttt{False} $\vee$ \texttt{TRUE} $\rightarrow_\beta$ \texttt{TRUE}")
+    LambdaStateTrace(TextSize.Small, ((Or >>> False) >>> True), None)
+    TextBlock(@"Let us begin to with \texttt{FALSE} $\vee$ \texttt{FALSE} $\rightarrow_\beta$ \texttt{FALSE}")
+    LambdaStateTrace(TextSize.Small, ((Or >>> False) >>> False), None)
   ]
 
