@@ -5,7 +5,7 @@ open SlideDefinition
 open CodeDefinitionLambda
 open Interpreter
 
-let LambdaStateTrace(x,y,z) = LambdaStateTrace(x,y,z,true,true,true)
+let LambdaStateTrace(x,y,z) = LambdaStateTrace(x,y,z,true,true,true,true,true)
 
 let slides =
   [

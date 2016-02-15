@@ -50,6 +50,7 @@
     <Compile Include="FunctionalWeek1.fs" />
     <Compile Include="FunctionalWeek2.fs" />
     <Compile Include="FunctionalWeek3.fs" />
+    <Compile Include="FunctionalWeek4.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
