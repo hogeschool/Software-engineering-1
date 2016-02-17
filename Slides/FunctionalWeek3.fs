@@ -91,6 +91,7 @@ let slides =
       [
         ItemsBlock[
             ! @"A choice of values is defined simply as something that stores either of two possible values"
+            ! @"We call such a choice a \textbf{discriminated union}"
             ! @"We build a discriminated union with either of two functions to build the first or the second value"
             ! @"They are usually called \texttt{inl} and \texttt{inr}\footnote{\textit{in} stands for injection, and \textit{l} and \textit{r} stand for left and right}"
           ]
@@ -135,71 +136,3 @@ let slides =
       ]
 
   ]
-
-//    TextBlock @"From now on we will start ignoring the reduction steps for simple terms such as \texttt{3+3}, \texttt{x = 0}, etc."
-//
-//    Section( @"\texttt{Let-in}")
-//    SubSection("Idea")
-//    ItemsBlock
-//      [
-//        ! @"Sometimes we wish to give a name to a value or a computation, to reuse later"
-//        ! @"This construct is called \texttt{let-in}"
-//        ! @"We could then say something like \texttt{let age = 9 in age + age}"
-//        ! @"We can nest \texttt{let-in} constructs, and then say something like \texttt{let age = 9 in (let x = 2 in age * x)}"
-//        Pause
-//        ! @"This makes code significantly more readable, as it looks like a series of declarations top-to-bottom"
-//    ]
-//
-//    LambdaStateTrace(TextSize.Small, Let("age",!!"9",(Plus >>> !!"age") >>> !!"age"), None, false, false, true, true, true)
-//
-//    Section( @"Recursive functions and  \texttt{let-rec}")
-//    SubSection("Idea")
-//    ItemsBlock
-//      [
-//        ! @"The lambda calculus has no \texttt{while} loops"
-//        ! @"This means that we need to emulate them with recursion"
-//    ]
-//
-//    ItemsBlock
-//      [
-//        ! @"This is a bit of an issue"
-//        ! @"A function is just a lambda term, which does not have a name"
-//        ! @"If the function does not have a name, how do we call it from its own body?"
-//      ]
-//
-//    ItemsBlock
-//      [
-//        ! @"We can define a recursive function as a function with an extra parameter"
-//        ! @"Calling the extra parameter will result in calling the function itself"
-//      ]
-//
-//    VerticalStack
-//      [
-//        TextBlock @"For example, the factorial function becomes"
-//        LambdaCodeBlock(TextSize.Small, "f" ==> ("n" ==> ((If >>> (IsZero >>> !!"n") >>> !!"1") >>> ((Mult >>> (!!"f" >>> ((Minus >>> !!"n") >>> !!"1"))) >>> !!"n"))))
-//      ]
-//
-//    VerticalStack
-//      [
-//        ItemsBlock
-//          [
-//            ! @"We now need an external operator that handles recursive functions properly"
-//            ! @"This must ensure that a recursive function gets itself as a parameter, in an endless chain"
-//            ! @"This combinator is known as \texttt{fixpoint} operator"
-//          ]
-//
-//        LambdaCodeBlock(TextSize.Small, (deltaRules Fix).Value)
-//      ]
-//
-//    LambdaStateTrace(TextSize.Small, (Fix >>> ("f" ==> ("n" ==> ((If >>> (IsZero >>> !!"n") >>> !!"1") >>> ((!!"f" >>> ((Minus >>> !!"n") >>> !!"1"))))))) >>> !!"2", 
-//                      Option.None, false, false, false, true, true)
-//
-//    VerticalStack
-//      [
-//        TextBlock "We can now try our hand at a factorial computation"
-//
-//        LambdaCodeBlock(TextSize.Small, (Fix >>> ("f" ==> ("n" ==> ((If >>> (IsZero >>> !!"n") >>> !!"1") >>> ((Mult >>> (!!"f" >>> ((Minus >>> !!"n") >>> !!"1"))) >>> !!"n"))))) >>> !!"2")
-//      ]
-//    LambdaStateTrace(TextSize.Small, (Fix >>> ("f" ==> ("n" ==> ((If >>> (IsZero >>> !!"n") >>> !!"1") >>> ((Mult >>> (!!"f" >>> ((Minus >>> !!"n") >>> !!"1"))) >>> !!"n"))))) >>> !!"2", 
-//                      Option.None, false, false, false, true, true)
-//

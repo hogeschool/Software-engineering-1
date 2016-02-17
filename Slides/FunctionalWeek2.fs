@@ -35,7 +35,7 @@ let slides =
         ! @"We can use truth tables to encode our expectations"
       ]
 
-    SubSection("Truth tables")
+    SubSection("Specification with, for example, truth tables")
     VerticalStack
       [
         TextBlock @"We want to formulate \texttt{TRUE}, \texttt{FALSE}, and \texttt{AND} so that"
@@ -125,7 +125,7 @@ let slides =
       ]
 
     TextBlock(@"Let us try with \texttt{if TRUE} $\vee$ \texttt{FALSE then A else B} $\rightarrow_\beta$ \texttt{A}")
-    LambdaStateTrace(TextSize.Small, (((If >>> ((Or >>> True) >>> False)) >>> !!"A") >>> !!"B"), None)
+    LambdaStateTrace(TextSize.Small, (((If >>> True) >>> !!"A") >>> !!"B"), None)
 
     Section("Natural numbers")
     SubSection("Idea")
@@ -188,11 +188,8 @@ let slides =
         LambdaCodeBlock(TextSize.Small, (CodeDefinitionLambda.deltaRules IsZero).Value)
       ]
 
-    TextBlock(@"Let us try it out to \texttt{2} $\times$ \texttt{2} $\rightarrow_\beta$ \texttt{4}")
+    TextBlock(@"Let us try it out to \texttt{0 = 2} $\rightarrow_\beta$ \texttt{FALSE}")
     LambdaStateTrace(TextSize.Small, IsZero >>> !!"2", None)
-
-    TextBlock(@"Let us try it out to \texttt{2} $\times$ \texttt{2} $\rightarrow_\beta$ \texttt{4}")
-    LambdaStateTrace(TextSize.Small, IsZero >>> !!"0", None)
 
     SubSection(@"Other arithmetic operators")
     ItemsBlock[
@@ -244,5 +241,9 @@ let slides =
     LambdaStateTrace(TextSize.Small, ((Or >>> False) >>> True), None)
     TextBlock(@"Let us begin to with \texttt{FALSE} $\vee$ \texttt{FALSE} $\rightarrow_\beta$ \texttt{FALSE}")
     LambdaStateTrace(TextSize.Small, ((Or >>> False) >>> False), None)
+
+    SubSection("Remaining numeral derivations")
+    TextBlock(@"Let us try out \texttt{0 = 0} $\rightarrow_\beta$ \texttt{TRUE}")
+    LambdaStateTrace(TextSize.Small, IsZero >>> !!"0", None)
   ]
 
