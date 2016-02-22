@@ -1,11 +1,11 @@
 ﻿module FunctionalWeek2
 
 open CommonLatex
-open SlideDefinition
+open LatexDefinition
 open CodeDefinitionLambda
 open Interpreter
 
-let LambdaStateTrace(x,y,z) = LambdaStateTrace(x,y,z,true,true,true,true,true)
+let LambdaStateTrace(x,y,z) = LambdaStateTrace(x,y,z,true,true,true,true,true,true)
 
 let slides =
   [
@@ -82,19 +82,19 @@ let slides =
         LambdaCodeBlock(TextSize.Small, (CodeDefinitionLambda.deltaRules Term.False).Value)
       ]
 
-    LambdaStateTrace(TextSize.Small, True >>> !!"bit1" >>> !!"bit0", None)
+    LambdaStateTrace(TextSize.Small, True >> !!"bit1" >> !!"bit0", None)
 
     SubSection(@"\texttt{AND}")
     ItemsBlock
       [
         ! @"The conjunction\footnote{\texttt{AND}, or $\wedge$} of two terms is a function that takes as input two booleans and returns a boolean"
         ! @"Since we just defined booleans to be two-parameter functions, we know that the two input booleans can be applied to each other"
-        ! @"Given two booleans \texttt{a} and \texttt{b}, their conjunction is \texttt{b} if \texttt{a} was \texttt{true}, or \texttt{false} otherwise"
+        ! @"Given two booleans \texttt{p} and \texttt{q}, their conjunction is \texttt{q} if \texttt{p} was \texttt{true}, or \texttt{false} otherwise"
         LambdaCodeBlock(TextSize.Small, (CodeDefinitionLambda.deltaRules Term.And).Value)
       ]
 
     TextBlock(@"Let us begin to with \texttt{TRUE} $\wedge$ \texttt{TRUE} $\rightarrow_\beta$ \texttt{TRUE}")
-    LambdaStateTrace(TextSize.Small, ((And >>> True) >>> True), None)
+    LambdaStateTrace(TextSize.Small, ((And >> True) >> True), None)
 
     VerticalStack
       [
@@ -108,24 +108,24 @@ let slides =
       [
         ! @"The disjunction\footnote{\texttt{OR}, or $\vee} of two terms is a function that takes as input two booleans and returns a boolean"
         ! @"Like with conjunction, remember that the two input booleans can be applied to one another"
-        ! @"Given two booleans \texttt{a} and \texttt{b}, their disjunction is \texttt{true} if \texttt{a} was \texttt{true}, or \texttt{b} otherwise"
+        ! @"Given two booleans \texttt{p} and \texttt{q}, their disjunction is \texttt{true} if \texttt{p} was \texttt{true}, or \texttt{q} otherwise"
         LambdaCodeBlock(TextSize.Small, (CodeDefinitionLambda.deltaRules Term.Or).Value)
       ]
 
     TextBlock(@"Let us begin to with \texttt{TRUE} $\vee$ \texttt{TRUE} $\rightarrow_\beta$ \texttt{TRUE}")
-    LambdaStateTrace(TextSize.Small, ((Or >>> True) >>> True), None)
+    LambdaStateTrace(TextSize.Small, ((Or >> True) >> True), None)
 
     SubSection(@"\texttt{if-then-else}")
     ItemsBlock
       [
         ! @"The conditional operator \texttt{if-then-else} chooses one of two parameters based on the value of the input condition"
-        ! @"Given a boolean \texttt{c} and two values \texttt{t} and \texttt{e}, the result is \texttt{t} if \texttt{c} was \texttt{true}, or \texttt{e} otherwise"
+        ! @"Given a boolean \texttt{c} and two values \texttt{th} and \texttt{el}, the result is \texttt{th} if \texttt{c} was \texttt{true}, or \texttt{el} otherwise"
         ! @"Since \texttt{c} is a boolean, it already performs this choice!"
         LambdaCodeBlock(TextSize.Small, (CodeDefinitionLambda.deltaRules Term.If).Value)
       ]
 
     TextBlock(@"Let us try with \texttt{if TRUE} $\vee$ \texttt{FALSE then A else B} $\rightarrow_\beta$ \texttt{A}")
-    LambdaStateTrace(TextSize.Small, (((If >>> True) >>> !!"A") >>> !!"B"), None)
+    LambdaStateTrace(TextSize.Small, (((If >> True) >> !!"A") >> !!"B"), None)
 
     Section("Natural numbers")
     SubSection("Idea")
@@ -167,7 +167,7 @@ let slides =
       ]
 
     TextBlock(@"Let us try it out to \texttt{2} $+$ \texttt{1} $\rightarrow_\beta$ \texttt{3}")
-    LambdaStateTrace(TextSize.Small, ((Plus >>> !!"2") >>> !!"1"), None)
+    LambdaStateTrace(TextSize.Small, ((Plus >> !!"2") >> !!"1"), None)
 
     SubSection(@"Multiplication")
     ItemsBlock[
@@ -179,7 +179,7 @@ let slides =
       ]
 
     TextBlock(@"Let us try it out to \texttt{2} $\times$ \texttt{2} $\rightarrow_\beta$ \texttt{4}")
-    LambdaStateTrace(TextSize.Small, ((Mult >>> !!"2") >>> !!"2"), None)
+    LambdaStateTrace(TextSize.Small, ((Mult >> !!"2") >> !!"2"), None)
 
     SubSection(@"Zero checking")
     ItemsBlock[
@@ -189,7 +189,7 @@ let slides =
       ]
 
     TextBlock(@"Let us try it out to \texttt{0 = 2} $\rightarrow_\beta$ \texttt{FALSE}")
-    LambdaStateTrace(TextSize.Small, IsZero >>> !!"2", None)
+    LambdaStateTrace(TextSize.Small, IsZero >> !!"2", None)
 
     SubSection(@"Other arithmetic operators")
     ItemsBlock[
@@ -222,28 +222,28 @@ let slides =
 
     Section "Appendix"
     SubSection("False derivation")
-    LambdaStateTrace(TextSize.Small, False >>> !!"bit1" >>> !!"bit0", None)
+    LambdaStateTrace(TextSize.Small, False >> !!"bit1" >> !!"bit0", None)
 
     SubSection(@"Remaining and derivations")
     TextBlock(@"Let us move to \texttt{TRUE} $\wedge$ \texttt{FALSE} $\rightarrow_\beta$ \texttt{FALSE}")
-    LambdaStateTrace(TextSize.Small, ((And >>> True) >>> False), None)
+    LambdaStateTrace(TextSize.Small, ((And >> True) >> False), None)
 
     TextBlock(@"Let us move to \texttt{FALSE} $\wedge$ \texttt{TRUE} $\rightarrow_\beta$ \texttt{FALSE}")
-    LambdaStateTrace(TextSize.Small, ((And >>> False) >>> True), None)
+    LambdaStateTrace(TextSize.Small, ((And >> False) >> True), None)
 
     TextBlock(@"Let us move to \texttt{FALSE} $\wedge$ \texttt{FALSE} $\rightarrow_\beta$ \texttt{FALSE}")
-    LambdaStateTrace(TextSize.Small, ((And >>> False) >>> False), None)
+    LambdaStateTrace(TextSize.Small, ((And >> False) >> False), None)
 
     SubSection("Remaining or derivations")
     TextBlock(@"Let us begin to with \texttt{TRUE} $\vee$ \texttt{FALSE} $\rightarrow_\beta$ \texttt{TRUE}")
-    LambdaStateTrace(TextSize.Small, ((Or >>> True) >>> False), None)
+    LambdaStateTrace(TextSize.Small, ((Or >> True) >> False), None)
     TextBlock(@"Let us begin to with \texttt{False} $\vee$ \texttt{TRUE} $\rightarrow_\beta$ \texttt{TRUE}")
-    LambdaStateTrace(TextSize.Small, ((Or >>> False) >>> True), None)
+    LambdaStateTrace(TextSize.Small, ((Or >> False) >> True), None)
     TextBlock(@"Let us begin to with \texttt{FALSE} $\vee$ \texttt{FALSE} $\rightarrow_\beta$ \texttt{FALSE}")
-    LambdaStateTrace(TextSize.Small, ((Or >>> False) >>> False), None)
+    LambdaStateTrace(TextSize.Small, ((Or >> False) >> False), None)
 
     SubSection("Remaining numeral derivations")
     TextBlock(@"Let us try out \texttt{0 = 0} $\rightarrow_\beta$ \texttt{TRUE}")
-    LambdaStateTrace(TextSize.Small, IsZero >>> !!"0", None)
+    LambdaStateTrace(TextSize.Small, IsZero >> !!"0", None)
   ]
 

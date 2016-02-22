@@ -1,7 +1,7 @@
 ﻿module FunctionalWeek4
 
 open CommonLatex
-open SlideDefinition
+open LatexDefinition
 open CodeDefinitionLambda
 open Interpreter
 
@@ -11,24 +11,9 @@ let slides =
     SubSection("Lecture topics")
     ItemsBlock
       [
-        ! @"Let"
-        ! @"Let-rec"
-        ! @"F\# translations of tuples, union types, lists, list comprehensions, records"
+        ! @"Recursion (\texttt{let-rec})"
+        ! @"F\# translations of lambda programs so far"
       ]
-
-    Section( @"\texttt{Let-in}")
-    SubSection("Idea")
-    ItemsBlock
-      [
-        ! @"Sometimes we wish to give a name to a value or a computation, to reuse later"
-        ! @"This construct is called \texttt{let-in}"
-        ! @"We could then say something like \texttt{let age = 9 in age + age}"
-        ! @"We can nest \texttt{let-in} constructs, and then say something like \texttt{let age = 9 in (let x = 2 in age * x)}"
-        Pause
-        ! @"This makes code significantly more readable, as it looks like a series of declarations top-to-bottom"
-    ]
-
-    LambdaStateTrace(TextSize.Small, Let("age",!!"9",(Plus >>> !!"age") >>> !!"age"), None, false, false, true, true, true)
 
     Section( @"Recursive functions and  \texttt{let-rec}")
     SubSection("Idea")
@@ -54,7 +39,7 @@ let slides =
     VerticalStack
       [
         TextBlock @"For example, the factorial function becomes"
-        LambdaCodeBlock(TextSize.Small, "f" ==> ("n" ==> ((If >>> (IsZero >>> !!"n") >>> !!"1") >>> ((Mult >>> (!!"f" >>> ((Minus >>> !!"n") >>> !!"1"))) >>> !!"n"))))
+        LambdaCodeBlock(TextSize.Small, -"f" ==> (-"n" ==> ((If >> (IsZero >> !!"n") >> !!"1") >> ((Mult >> (!!"f" >> ((Minus >> !!"n") >> !!"1"))) >> !!"n"))))
       ]
 
     VerticalStack
@@ -69,17 +54,17 @@ let slides =
         LambdaCodeBlock(TextSize.Small, (deltaRules Fix).Value)
       ]
 
-    LambdaStateTrace(TextSize.Small, (Fix >>> ("f" ==> ("n" ==> ((If >>> (IsZero >>> !!"n") >>> !!"1") >>> ((!!"f" >>> ((Minus >>> !!"n") >>> !!"1"))))))) >>> !!"2", 
-                      Option.None, false, false, false, true, true)
+    LambdaStateTrace(TextSize.Small, (Fix >> (-"f" ==> (-"n" ==> ((If >> (IsZero >> !!"n") >> !!"1") >> ((!!"f" >> ((Minus >> !!"n") >> !!"1"))))))) >> !!"2", 
+                      Option.None, false, false, false, false, true, true)
 
     VerticalStack
       [
         TextBlock "We can now try our hand at a factorial computation"
 
-        LambdaCodeBlock(TextSize.Small, (Fix >>> ("f" ==> ("n" ==> ((If >>> (IsZero >>> !!"n") >>> !!"1") >>> ((Mult >>> (!!"f" >>> ((Minus >>> !!"n") >>> !!"1"))) >>> !!"n"))))) >>> !!"2")
+        LambdaCodeBlock(TextSize.Small, (Fix >> (-"f" ==> (-"n" ==> ((If >> (IsZero >> !!"n") >> !!"1") >> ((Mult >> (!!"f" >> ((Minus >> !!"n") >> !!"1"))) >> !!"n"))))) >> !!"2")
       ]
-    LambdaStateTrace(TextSize.Small, (Fix >>> ("f" ==> ("n" ==> ((If >>> (IsZero >>> !!"n") >>> !!"1") >>> ((Mult >>> (!!"f" >>> ((Minus >>> !!"n") >>> !!"1"))) >>> !!"n"))))) >>> !!"2", 
-                      Option.None, false, false, false, true, true)
+    LambdaStateTrace(TextSize.Small, (Fix >> (-"f" ==> (-"n" ==> ((If >> (IsZero >> !!"n") >> !!"1") >> ((Mult >> (!!"f" >> ((Minus >> !!"n") >> !!"1"))) >> !!"n"))))) >> !!"2", 
+                      Option.None, false, false, false, false, true, true)
 
     Section( @"Translating to F\#")
     SubSection("Overview")
@@ -88,6 +73,7 @@ let slides =
         ! @"Each and every one of the constructs we have seen so far has a direct translation in F\#\footnote{Haskell is a bit different, so we leave it for later}"
         ! @"All constructs have exactly the same behaviour as in the lambda calculus, but with a slightly less mathematical syntax for ASCII keyboards"
         ! @"A few operators are menemonically friendlier or just plain more readable, but the essence remains exactly the same"
+        ! @"F\# is indentation-sensitive, like Python: pay a lot of attention to how terms are indented!"
       ]
 
     SubSection("Basic expressions")
@@ -95,8 +81,8 @@ let slides =
       [
         TextBlock @"Integers, booleans, floats, strings have the usual meaning, both in the lambda calculus, F\#, and the languages you are used to:"
 
-        FSharpCodeBlock(TextSize.Small, (Minus >>> ((Plus >>> !!"2") >>> !!"3")) >>> !!"4")
-        FSharpCodeBlock(TextSize.Small, (And >>> True) >>> False)
+        FSharpCodeBlock(TextSize.Small, (Minus >> ((Plus >> !!"2") >> !!"3")) >> !!"4")
+        FSharpCodeBlock(TextSize.Small, (And >> True) >> False)
       ]
 
     SubSection("\texttt{if-then-else}")
@@ -109,19 +95,19 @@ let slides =
             ! @"This differs from imperative languages, where we just jump into either of the two branches"
           ]
 
-        FSharpCodeBlock(TextSize.Small, ((If >>> ((And >>> True) >>> False)) >>> !!"0") >>> !!"1")
+        FSharpCodeBlock(TextSize.Small, ((If >> ((And >> True) >> False)) >> !!"0") >> !!"1")
       ]
 
     SubSection("Anonymous functions")
     VerticalStack
       [
-        TextBlock @"Functions look very similarly"
-        FSharpCodeBlock(TextSize.Small, "x" ==> ("f" ==> (!!"f" >>> !!"x")))
+        TextBlock @"Functions look very similar, with \texttt{fun} instead of $\lambda$"
+        FSharpCodeBlock(TextSize.Small, -"x" ==> (-"f" ==> (!!"f" >> !!"x")))
 
         Pause
 
         TextBlock @"Just like function application"
-        FSharpCodeBlock(TextSize.Small, (("x" ==> ("f" ==> (!!"f" >>> !!"x"))) >>> !!"3") >>> ("x" ==> ((Plus >>> !!"3") >>> !!"x")))
+        FSharpCodeBlock(TextSize.Small, ((-"x" ==> (-"f" ==> (!!"f" >> !!"x"))) >> !!"3") >> (-"x" ==> ((Plus >> !!"3") >> !!"x")))
       ]
 
     SubSection("Named functions")
@@ -129,7 +115,7 @@ let slides =
       [
         TextBlock @"We can give names to functions, and code becomes much prettier as a result"
 
-        FSharpCodeBlock(TextSize.Small, Let("apply", "x" ==> ("f" ==> (!!"f" >>> !!"x")), (!!"apply" >>> !!"3") >>> ("x" ==> ((Plus >>> !!"3") >>> !!"x"))))
+        FSharpCodeBlock(TextSize.Small, Let(-"apply", -"x" ==> (-"f" ==> (!!"f" >> !!"x")), (!!"apply" >> !!"3") >> (-"x" ==> ((Plus >> !!"3") >> !!"x"))))
       ]
 
 
@@ -139,9 +125,9 @@ let slides =
         TextBlock @"We can also give names to recursive functions by using \texttt{let rec} instead of \texttt{let}, and code becomes much more readable than with \texttt{fix}"
 
         FSharpCodeBlock(TextSize.Small, 
-          Let("fact", 
-              (Fix >>> ("f" ==> ("n" ==> ((If >>> (IsZero >>> !!"n") >>> !!"1") >>> ((Mult >>> (!!"f" >>> ((Minus >>> !!"n") >>> !!"1"))) >>> !!"n"))))), 
-              !!"fact" >>> !!"2"))
+          Let(-"fact", 
+              (Fix >> (-"f" ==> (-"n" ==> ((If >> (IsZero >> !!"n") >> !!"1") >> ((Mult >> (!!"f" >> ((Minus >> !!"n") >> !!"1"))) >> !!"n"))))), 
+              !!"fact" >> !!"2"))
       ]
 
     SubSection("Pairs")
@@ -149,7 +135,7 @@ let slides =
       [
         TextBlock @"We can define tuples by just putting a comma between the values, with or without nesting for more than two values is done for us"
 
-        FSharpCodeBlock(TextSize.Small, (MakePair >>> !!"1") >>> True)
+        FSharpCodeBlock(TextSize.Small, (MakePair >> !!"1") >> True)
       ]
 
     ItemsBlock
@@ -169,8 +155,8 @@ let slides =
             ! @"They are called, respectively, \texttt{fst} and \texttt{snd}"
           ]
 
-        FSharpCodeBlock(TextSize.Small, First >>> ((MakePair >>> !!"1") >>> True))
-        FSharpCodeBlock(TextSize.Small, Second >>> ((MakePair >>> !!"1") >>> True))
+        FSharpCodeBlock(TextSize.Small, First >> ((MakePair >> !!"1") >> True))
+        FSharpCodeBlock(TextSize.Small, Second >> ((MakePair >> !!"1") >> True))
       ]
 
     VerticalStack
@@ -183,7 +169,7 @@ let slides =
 
         Pause
 
-        FSharpCodeBlock(TextSize.Small, (MakePair >>> ("x" ==> ((Plus >>> !!"1") >>> !!"x")) >>> ("x" ==> ((Mult >>> !!"2") >>> !!"x"))))
+        FSharpCodeBlock(TextSize.Small, (MakePair >> (-"x" ==> ((Plus >> !!"1") >> !!"x")) >> (-"x" ==> ((Mult >> !!"2") >> !!"x"))))
 
         Pause
 
@@ -204,19 +190,19 @@ let slides =
             ! @"They are called, respectively, \texttt{Choice1Of2} and \texttt{Choice2Of2}"
           ]
 
-        FSharpCodeBlock(TextSize.Small, Inl >>> !!"1")
-        FSharpCodeBlock(TextSize.Small, Inr >>> True)
+        FSharpCodeBlock(TextSize.Small, Inl >> !!"1")
+        FSharpCodeBlock(TextSize.Small, Inr >> True)
       ]
 
     VerticalStack
       [
         TextBlock @"We can, of course, perform matches on discriminated unions"
 
-        FSharpCodeBlock(TextSize.Small, (Match >>> (Inl >>> !!"1") >>> ("x" ==> (Inl >>> !!"x"))) >>> ("x" ==> (Inr >>> !!"x")))
+        FSharpCodeBlock(TextSize.Small, (Match >> (Inl >> !!"1") >> (-"x" ==> (Inl >> !!"x"))) >> (-"x" ==> (Inr >> !!"x")))
         
         Pause
 
-        FSharpCodeBlock(TextSize.Small, Let("i", ((Match >>> (Inl >>> !!"1") >>> ("x" ==> !!"x")) >>> ("x" ==> !!"0")), (Mult >>> !!"i") >>> !!"2"))
+        FSharpCodeBlock(TextSize.Small, Let(-"i", ((Match >> (Inl >> !!"1") >> (-"x" ==> !!"x")) >> (-"x" ==> !!"0")), (Mult >> !!"i") >> !!"2"))
       ]
 
     VerticalStack
@@ -225,9 +211,9 @@ let slides =
 
         FSharpCodeBlock(
           TextSize.Small, 
-          (Match >>> (Inl >>> (Inr >>> True)) >>> 
-            ("x" ==> (((Match >>> !!"x") >>> ("x" ==> (Inl >>> !!"x"))) >>> ("x" ==> (Inr >>> !!"x"))))) >>> 
-            ("y" ==> (Inr >>> !!"y")))
+          (Match >> (Inl >> (Inr >> True)) >> 
+            (-"x" ==> (((Match >> !!"x") >> (-"x" ==> (Inl >> !!"x"))) >> (-"x" ==> (Inr >> !!"x"))))) >> 
+            (-"y" ==> (Inr >> !!"y")))
       ]
 
     SubSection("Structural equality")
@@ -279,11 +265,22 @@ let slides =
         ! @"We will cover the type system of F\# in the next lecture"
       ]
 
+    Section "Homework"
+    SubSection(@"Ways to exercise")
+    ItemsBlock[
+        ! @"We have added a ton of F\# homework, with solutions"
+        ! @"It is all on GitHub"
+        ! @"It is not mandatory, but it is a good idea to do it until you feel more sure"
+        ! @"You may discuss it during one of the two practicums"
+      ]
+
     Section "Conclusion"
     SubSection(@"Recap")
     ItemsBlock[
         ! @"The lambda calculus can be translated, term to term, into F\#"
         ! @"F\# is therefore just a practical lambda calculus with a series of handy extensions and slightly more readable"
       ]
+
+    Section "Practicum begins now"
   ]
 

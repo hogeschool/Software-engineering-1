@@ -1,11 +1,12 @@
 ﻿module FunctionalWeek3
 
 open CommonLatex
-open SlideDefinition
+open LatexDefinition
 open CodeDefinitionLambda
 open Interpreter
 
-let LambdaStateTrace(ts, c, ms, p, q) = LambdaStateTrace(ts, c, ms, false, false, false, p, q)
+let FullLambdaStateTrace = LambdaStateTrace
+let LambdaStateTrace(ts, c, ms, p, q) = LambdaStateTrace(ts, c, ms, false, false, false, false, p, q)
 
 let slides =
   [
@@ -13,10 +14,24 @@ let slides =
     SubSection("Lecture topics")
     ItemsBlock
       [
+        ! @"Let"
         ! @"Tuples"
         ! @"Discriminated unions (polymorphism)"
-        ! @"Lists"
       ]
+
+    Section( @"\texttt{Let-in}")
+    SubSection("Idea")
+    ItemsBlock
+      [
+        ! @"Sometimes we wish to give a name to a value or a computation, to reuse later"
+        ! @"This construct is called \texttt{let-in}"
+        ! @"We could then say something like \texttt{let age = 9 in age + age}"
+        ! @"We can nest \texttt{let-in} constructs, and then say something like \texttt{let age = 9 in (let x = 2 in age * x)}"
+        Pause
+        ! @"This makes code significantly more readable, as it looks like a series of declarations top-to-bottom"
+    ]
+
+    FullLambdaStateTrace(TextSize.Small, Let(-"age",!!"9",(Plus >> !!"age") >> !!"age"), None, false, false, false, true, true, true)
 
     Section( @"Data types")
     SubSection("Overview")
@@ -66,7 +81,7 @@ let slides =
         LambdaCodeBlock(TextSize.Small, (deltaRules MakePair).Value)
       ]
 
-    LambdaStateTrace(TextSize.Small, (MakePair >>> !!"1") >>> !!"2", Option.None, true, true)
+    LambdaStateTrace(TextSize.Small, (MakePair >> !!"1") >> !!"2", Option.None, true, true)
 
     VerticalStack
       [
@@ -79,10 +94,10 @@ let slides =
         LambdaCodeBlock(TextSize.Small, (deltaRules Second).Value)
       ]
 
-    LambdaStateTrace(TextSize.Small, First >>> ((MakePair >>> !!"1") >>> !!"2"), Option.None, true, true)
+    LambdaStateTrace(TextSize.Small, First >> ((MakePair >> !!"1") >> !!"2"), Option.None, true, true)
 
     TextBlock @"We should expect that $\pi_1$ and $\pi_2$ are inverse operations to constructing a pair, as they destroy it"
-    LambdaStateTrace(TextSize.Small, Let("p", (MakePair >>> !!"1") >>> !!"2", (MakePair >>> (First >>> !!"p")) >>> (Second >>> !!"p")), 
+    LambdaStateTrace(TextSize.Small, Let(-"p", (MakePair >> !!"1") >> !!"2", (MakePair >> (First >> !!"p")) >> (Second >> !!"p")), 
                      Option.None, false, true)
 
     Section( @"Discriminated unions")
@@ -100,8 +115,8 @@ let slides =
         LambdaCodeBlock(TextSize.Small, (deltaRules Inr).Value)
       ]
 
-    LambdaStateTrace(TextSize.Small, Inl >>> !!"1", Option.None, false, true)
-    LambdaStateTrace(TextSize.Small, Inr >>> !!"TRUE", Option.None, false, true)
+    LambdaStateTrace(TextSize.Small, Inl >> !!"1", Option.None, false, true)
+    LambdaStateTrace(TextSize.Small, Inr >> !!"TRUE", Option.None, false, true)
 
     VerticalStack
       [
@@ -113,11 +128,11 @@ let slides =
         LambdaCodeBlock(TextSize.Small, (deltaRules Match).Value)
       ]
 
-    LambdaStateTrace(TextSize.Small, ((Match >>> (Inl >>> !!"1")) >>> ("x" ==> ((Plus >>> !!"x") >>> !!"1"))) >>> ("y" ==> ((And >>> !!"y") >>> False)), Option.None, false, true)
+    LambdaStateTrace(TextSize.Small, ((Match >> (Inl >> !!"1")) >> (-"x" ==> ((Plus >> !!"x") >> !!"1"))) >> (-"y" ==> ((And >> !!"y") >> False)), Option.None, false, true)
 
     TextBlock @"We should expect that \texttt{inl} and \texttt{inr} are inverse operations to \texttt{match}"
-    LambdaStateTrace(TextSize.Small, (Match >>> (Inl >>> !!"1")) >>> Inl >>> Inr, Option.None, false, false)
-    LambdaStateTrace(TextSize.Small, (Match >>> (Inr >>> True)) >>> Inl >>> Inr, Option.None, false, false)
+    LambdaStateTrace(TextSize.Small, (Match >> (Inl >> !!"1")) >> Inl >> Inr, Option.None, false, false)
+    LambdaStateTrace(TextSize.Small, (Match >> (Inr >> True)) >> Inl >> Inr, Option.None, false, false)
 
     Section "Conclusion"
     SubSection(@"Recap")
@@ -134,5 +149,4 @@ let slides =
         ! @"Unions cover choosing different things (like the polymorphism of an interface that might be implemented by various concrete classes)"
         ! @"Combining these two covers all possible programming needs, even for more complex data structures"
       ]
-
   ]
