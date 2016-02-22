@@ -7,6 +7,7 @@ open Interpreter
 
 let FullLambdaStateTrace = LambdaStateTrace
 let LambdaStateTrace(ts, c, ms, p, q) = LambdaStateTrace(ts, c, ms, false, false, false, false, p, q)
+let LambdaCodeBlock(x,y) = LambdaCodeBlock(x,y,false)
 
 let slides =
   [

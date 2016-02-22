@@ -6,6 +6,7 @@ open CodeDefinitionLambda
 open Interpreter
 
 let LambdaStateTrace(x,y,z) = LambdaStateTrace(x,y,z,true,true,true,true,true,true)
+let LambdaCodeBlock(x,y) = LambdaCodeBlock(x,y,false)
 
 let slides =
   [
