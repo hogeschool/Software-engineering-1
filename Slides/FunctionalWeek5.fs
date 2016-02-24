@@ -9,12 +9,12 @@ let slides =
   [
     Section("Introduction")
     SubSection("Lecture topics")
-//    LambdaCodeBlock(TextSize.Small, (deltaRules Plus).Value, true)
-    LambdaTypeTrace(TextSize.Small, (deltaRules Plus).Value)
-//    LambdaCodeBlock(TextSize.Small, Type defaultTypes.[Nat], true)
-//    LambdaCodeBlock(TextSize.Small, Type defaultTypes.[Boolean], true)
-//    LambdaCodeBlock(TextSize.Small, Type defaultTypes.[Product], true)
-//    LambdaCodeBlock(TextSize.Small, Type defaultTypes.[Sum], true)
+//    LambdaTypeTrace(TextSize.Small, Type defaultTypes.[Nat])
+//    LambdaTypeTrace(TextSize.Small, Type defaultTypes.[Boolean])
+//    LambdaTypeTrace(TextSize.Small, Type defaultTypes.[Product])
+//    LambdaTypeTrace(TextSize.Small, Type defaultTypes.[Sum])
+    LambdaTypeTrace(TextSize.Small, (deltaRules And).Value)
+//    LambdaTypeTrace(TextSize.Small, (deltaRules Plus).Value)
 
 //    ItemsBlock
 //      [

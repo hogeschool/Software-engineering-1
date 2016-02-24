@@ -58,6 +58,7 @@
     <None Include="INFSEN02-1-Lec1-Lambda-calculus.pdf" />
     <None Include="INFSEN02-1-Lec2-Delta-rules.pdf" />
     <None Include="INFSEN02-1-Lec4-Letrec-FSharp.pdf" />
+    <None Include="INFSEN02-1-Lec3-Data-structures.pdf" />
     <None Include="INFSEN02-1-Lec5-Types.pdf" />
   </ItemGroup>
   <ItemGroup>
