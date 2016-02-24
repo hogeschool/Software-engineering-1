@@ -53,6 +53,11 @@
     <Compile Include="FunctionalWeek4.fs" />
     <Compile Include="FunctionalWeek5.fs" />
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="SampleExam1.fs" />
+    <Compile Include="SampleExam2.fs" />
+    <Compile Include="SampleExam3.fs" />
+    <Compile Include="SampleExam4.fs" />
+    <Compile Include="SampleExam5.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <None Include="INFSEN02-1-Lec1-Lambda-calculus.pdf" />
@@ -60,6 +65,11 @@
     <None Include="INFSEN02-1-Lec4-Letrec-FSharp.pdf" />
     <None Include="INFSEN02-1-Lec3-Data-structures.pdf" />
     <None Include="INFSEN02-1-Lec5-Types.pdf" />
+    <None Include="INFSEN02-1-SampleExam1.pdf" />
+    <None Include="INFSEN02-1-SampleExam2.pdf" />
+    <None Include="INFSEN02-1-SampleExam3.pdf" />
+    <None Include="INFSEN02-1-SampleExam4.pdf" />
+    <None Include="INFSEN02-1-SampleExam5.pdf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\LatexSlideGenerator\Slides\LatexSlidesGenerator.fsproj">
