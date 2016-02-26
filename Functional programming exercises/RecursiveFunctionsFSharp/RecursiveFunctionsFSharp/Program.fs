@@ -18,12 +18,21 @@
 //A course takes as input a list of pairs containing the coordinates of each course point. A course is valid if the ship can cross all the sectors in the course without being destroyed. Write a function
 //takes as input a galaxy, a ship course, and checks if the course is valid.
 
-//Caesar's chypher is the first cryptographic algorithm documented in history. Given a text and an integer n called key, you shift ahead every letter of the text by n positions. If you reach the end of 
+//Caesar's chipher is the first cryptographic algorithm documented in history. Given a text and an integer n called key, you shift ahead every letter of the text by n positions. If you reach the end of 
 //the alphabet you go back from the beginning. For example the letter 'c' encoded with key = 3 becomes 'f', the letter 'y' encoded with key = 5 becomes the letter 'd'. Write the functions to encode
 //and decode a given text with this algorithm. Decoding a text encoded with Caesar's chypher only requires to apply the encoding by shifting BACK of the same amount the letters.
 //For example if you encoded the text with key = 5 then decoding just requires to call the same function with key = -5 and the encoded text as input. 
 //For simplicity only encode lower case letters, but if you want you can also make a version which encodes capital letters.
 //Punctuations and special characters are never encoded.
+
+//Vigenere's cipher is an improvement of Caesar's chypher. The idea is to use variable shifting for each character. This chypher uses a password instead of a single key.
+//The password is used to create an encryption table by placing it under the text and repeating it until the text ends. For example to encode the text "hello world!" encoded with the password "cat" we build the following
+//encryption table:
+//text:       hello world!
+//password:   catcatcatcat
+//Each character in the text is shifted by the position in the alphabet of the corresponding letter of the password in the encryption table. In the example above h is shifted by 2 positions becoming a j.
+//e stays the same because a has position 0 in the alphabet, and l becomes e because it is shifted by 19 positions. The decoding is done by shifting back with the password. Write a function that econdes
+//and decodes a text using the Vigenere's cipher.
 
 
 //Given a string as input write a function that splits it into substrings by splitting it at every whitespace. For example
@@ -136,7 +145,9 @@ let rec encodeVigenere text password encode =
   | [], _ -> []
   | c :: cs, p :: ps ->
       if (int c >= 97 && int c <= 122) then
-        let n = if encode then int p else -(int p)
+        let n =
+          let position = ((int p) - 97) % 26
+          if encode then position else -position
         (c >> n) :: (encodeVigenere cs (ps @ [p]) encode)
       else
         c :: (encodeVigenere cs (ps @ [p]) encode)
@@ -165,7 +176,8 @@ let main argv =
       (1,0)
     ]
   let text = "Arma virumque cano, Troiae qui primus ab oris Italiam, fato profugus, Laviniaque venit litora." |> toCharList
-  let password = "e" |> toCharList
+  let text1 = "hello world!" |> toCharList
+  let password = "cat" |> toCharList
   let encodedText = encodeVigenere text password true |> toString
   let decodedText = encodeVigenere (encodedText |> toCharList) password false |> toString
   printfn "%A \n%A" encodedText decodedText
