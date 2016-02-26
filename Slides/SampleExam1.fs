@@ -7,8 +7,7 @@ open Interpreter
 
 let slides =
   [
-    Section("Exam")
-    SubSection("Question 1")
+    Section("Question 1")
     VerticalStack
       [
         TextBlock "Given the following lambda program, and a series of relevant delta rules, show the beta reductions for this program."
@@ -31,7 +30,7 @@ let slides =
     LambdaStateTrace(TextSize.Small, ((And >> True) >> False), None, true, true, true, true, true, true)
 
 
-    SubSection("Question 2")
+    Section("Question 2")
     VerticalStack
       [
       TextBlock "Given the following lambda calculus program, and a series of relevant delta rules, give the full typing derivation for the program."
