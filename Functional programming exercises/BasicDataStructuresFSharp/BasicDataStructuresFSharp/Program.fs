@@ -2,7 +2,7 @@
 //The sum of two fractions can be done only if the denominator is the same. The sum is a fraction having the sum of the numerators and the same denominator.
 //The multiplication of two fractions is a fraction containing the result of the multiplication of numerators and denominators.
 //The division is the multiplication of the first fraction with the inverse of the second.
-//Write a function which implements the operation between two fractions. Use a record to model a fraction.
+//Write a function which implements the operations between two fractions. Use a record to model a fraction.
 
 type Fraction =
   {
