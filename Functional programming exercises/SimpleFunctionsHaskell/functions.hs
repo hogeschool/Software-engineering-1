@@ -92,6 +92,7 @@ main = do
   print (prisoners_dilemma True False)
   
   -- exercise 6
+  putStr("\nExercise 6\n")
   print (ocd "at toilet" "toilet seat up")
   print (ocd "at toilet" "toilet seat down")
   print (ocd "walking" "pavement has tiles")

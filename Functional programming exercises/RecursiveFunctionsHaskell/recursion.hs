@@ -99,14 +99,17 @@ textCorrectionGeneric text word replacer =
 
 main = do
   -- exercise 1
+  putStr("Velociraptor\n")
   print (velociraptor 30.0 10)
   
   -- exercise 2
+  putStr("\nCourse\n")
   let milkyWay = [(0,0,0),(0,1,10),(0,2,0),(1,0,50),(1,1,0),(1,2,0),(2,0,10),(2,1,0),(2,2,70)]
   let course = [(0,0),(1,0),(2,0),(2,2)]
   print (validCourse milkyWay course)
   
   -- exercise 3
+  putStr("\nCaesar's cipher\n")
   let text = "Arma virumque cano, Troiae qui primus ab oris Italiam, fato profugus, Laviniaque venit litora."
   let encodedText = encodeCaesar text 5
   let decodedText = encodeCaesar encodedText (- 5)
@@ -114,22 +117,27 @@ main = do
   print(decodedText)
   
   -- exercise 4
+  putStr("\nVigenere's cipher\n")
   let encodedTextV = encodeVigenere text "cat" True
   let decodedTextV = encodeVigenere encodedTextV "cat" False
   print(encodedTextV)
   print(decodedTextV)
   
   -- exercise 5
+  putStr("\nSplit with spaces\n")
   print (splitSpaces "Hello World!")
   
   -- exercise 6
+  putStr("\nSplit by\n")
   print (splitBy "Hello World!" 'o')
   
   -- exercise 7
+  putStr("\nText correction with 'besides'\n")
   print (textCorrection "we will show that functional programming languages are the best. besides we will prove that f# is the finest among all functional languages.")
   print (textCorrection "yo dawg, i heard you like replacing words, so i put a besides in a besides so you can replace while you replace")
   
   -- exercise 8
+  putStr("\nText correction generic\n")
   print (textCorrectionGeneric 
           "we will show that functional programming languages are the best. besides we will prove that f# is the finest among all functional languages."
           "functional"
