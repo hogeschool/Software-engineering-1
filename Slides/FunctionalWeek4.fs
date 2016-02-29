@@ -4,7 +4,10 @@ open CommonLatex
 open LatexDefinition
 open CodeDefinitionLambda
 open Interpreter
+
 let LambdaCodeBlock(x,y) = LambdaCodeBlock(x,y,false)
+let FSharpCodeBlock(x,y) = FSharpCodeBlock(x,y,false)
+
 
 let slides =
   [
