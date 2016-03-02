@@ -52,6 +52,7 @@
     <Compile Include="FunctionalWeek3.fs" />
     <Compile Include="FunctionalWeek4.fs" />
     <Compile Include="FunctionalWeek5.fs" />
+    <Compile Include="FunctionalWeek6.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="SampleExam1.fs" />
     <Compile Include="SampleExam2.fs" />

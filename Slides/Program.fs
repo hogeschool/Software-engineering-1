@@ -6,10 +6,8 @@ let main argv =
 //  do batchProcess LatexDefinition.generatePresentation FunctionalWeek2.slides "INFSEN02-1-Lec2-Delta-rules" "The INFDEV@HR Team" "Delta rules" true false
 //  do batchProcess LatexDefinition.generatePresentation FunctionalWeek3.slides "INFSEN02-1-Lec3-Data-structures" "The INFDEV@HR Team" "Data structures" true false
 //  do batchProcess LatexDefinition.generatePresentation FunctionalWeek4.slides "INFSEN02-1-Lec4-Letrec-FSharp" "The INFDEV@HR Team" "Recursion and F\# translations" true false
-  do batchProcess LatexDefinition.generatePresentation FunctionalWeek5.slides "INFSEN02-1-Lec5-Types" "The INFDEV@HR Team" "Types, inference, and F\# data types" true false
-  // Practicum: building a functional application from the types down, and using the compiler as assistant
-  // * make a small simulation
-  // * make a tiny interpreter
+//  do batchProcess LatexDefinition.generatePresentation FunctionalWeek5.slides "INFSEN02-1-Lec5-Types" "The INFDEV@HR Team" "Types, inference, and F\# data types" true false
+//  do batchProcess LatexDefinition.generatePresentation FunctionalWeek6.slides "INFSEN02-1-Lec6-Practicum" "The INFDEV@HR Team" "Setting up a functional application" true false
 
   // Lecture 7 Haskell translations and laziness
   // Lecture 8 (optional lecture) advanced patterns and practices: monads, up to coroutines
