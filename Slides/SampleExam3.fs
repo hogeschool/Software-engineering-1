@@ -23,7 +23,7 @@ let slides =
         LambdaCodeBlock(TextSize.Small, (deltaRules !!"1").Value, false)
 
         TextBlock "Integer two (2)"
-        LambdaCodeBlock(TextSize.Small, (deltaRules !!"1").Value, false)
+        LambdaCodeBlock(TextSize.Small, (deltaRules !!"2").Value, false)
       ]
 
     SubSection("Answer 1 (note: you do not need to write all this detail yourself, it is only included for completeness)")
