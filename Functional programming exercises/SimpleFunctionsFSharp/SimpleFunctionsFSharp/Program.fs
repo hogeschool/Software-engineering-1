@@ -3,7 +3,7 @@
 
 //2. Define a new version of exercise 1 where the user can specify the messages to output.
 
-//3. The crazy operation takes two integer numbers n and m and does the following: if n divides m then just return an integer number containing the digits nm.
+//3. The crazy operation takes two one-digit integer numbers n and m and does the following: if n divides m then just return an integer number containing the digits nm.
 //For example crazy 4 8 returns 48. If n is positive and m negative return their product. In all the other cases return the sum of the two numbers. Implement this
 //extremely useful operation.
 

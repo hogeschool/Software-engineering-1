@@ -4,6 +4,13 @@
 //The division is the multiplication of the first fraction with the inverse of the second.
 //Write a function which implements the operations between two fractions. Use a record to model a fraction.
 
+module Program
+
+open ScriptLanguage
+
+let curry f a b = f (a,b)
+let uncurry f (a,b) =  f a b
+
 type Fraction =
   {
     Numerator     : int
@@ -35,10 +42,62 @@ type Fraction =
 
 let (.|) a b = Fraction.Create(a,b)
 
+
+
+type GameState =
+  {
+    X     : int
+    Y     : float32
+  }
+
+type ScriptManager = 
+  {
+    StateScripts       : Script<GameState, GameState> list
+  }
+with
+   member this.Update(dt,state) =
+    let updatedScripts,result = scheduler this.StateScripts [] state dt
+    result,{this with StateScripts = updatedScripts}
+
+let script1 gameState =
+  Wait 0.5f >> (
+    Call ((fun state -> {state with X = state.X + 1})) >> (
+      Wait 2.0f >>
+        Call ((fun state -> {state with X = state.X + 3}))))
+
+let script2 gameState = 
+  When (fun state -> state.X >= 4) >> (
+    Wait 0.5f >> (
+      Call (fun state -> {state with X = 0})))
+
+let script3 gameState =
+  While((fun _ -> true),
+                      (If ((fun state -> state.X < 4),Sequence(Call((fun state -> {state with Y = state.Y + 0.1f})),Wait 0.5f),
+                          Sequence(Call(fun state -> {state with Y = state.Y - 0.1f}),Wait 0.5f))))
+
+
+
+
+
+let rec gameLoop (watch : System.Diagnostics.Stopwatch) (before : float32) (state : GameState) (manager : ScriptManager) (frameRate : float32) =
+  let now = (watch.ElapsedMilliseconds |> float32) / 1000.0f
+  let dt = (now - before |> float32)
+  if (dt >= 1.0f / frameRate) then
+    let updatedState,updatedManager = manager.Update(dt,state)
+    do System.Console.Clear()
+    do printfn "%A" updatedState
+    do gameLoop watch now updatedState updatedManager frameRate
+  else
+    do gameLoop watch before state manager frameRate
+
 [<EntryPoint>]
 let main argv =
   let f1 = 5 .| 3
   let f2 = 2 .| 4
   let r = f1 * f2
-  printfn "%s" (r.ToString())
+  let state = { X = 0; Y = 0.0f }
+  let scripts = { StateScripts = [script3 state] }
+  let watch = System.Diagnostics.Stopwatch()
+  do watch.Start()
+  do gameLoop watch (watch.ElapsedMilliseconds |> float32) state scripts 60.0f
   0 // return an integer exit code
