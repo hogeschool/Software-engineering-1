@@ -56,6 +56,7 @@ with
           newBlock.Run(input,dt)
         else
           input, Done
+    | Done -> input, Done
         
 
 let (>>) current next = Sequence(current,next)
