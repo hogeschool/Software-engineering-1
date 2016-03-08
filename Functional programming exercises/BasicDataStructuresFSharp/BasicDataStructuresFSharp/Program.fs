@@ -60,23 +60,23 @@ with
     let updatedScripts,result = scheduler this.StateScripts [] state dt
     result,{this with StateScripts = updatedScripts}
 
-let script1 gameState =
+let script1 =
   Wait 0.5f >> (
     Call ((fun state -> {state with X = state.X + 1})) >> (
       Wait 2.0f >>
         Call ((fun state -> {state with X = state.X + 3}))))
 
-let script2 gameState = 
+let script2 = 
   When (fun state -> state.X >= 4) >> (
     Wait 0.5f >> (
       Call (fun state -> {state with X = 0})))
 
-let script3 gameState =
+let script3 =
   While((fun state -> state.Y >= 0.0f),
                       (If ((fun state -> state.X < 4),Sequence(Call((fun state -> {state with Y = state.Y + 0.1f})),Wait 0.05f),
                           Sequence(Call(fun state -> {state with Y = state.Y - 0.1f}),Wait 0.05f))))
 
-let quit gameState =
+let quit =
   When(fun state -> state.Y < 0.0f) >> (
     Call(fun state -> {state with Quit = true}))
     
@@ -102,7 +102,7 @@ let main argv =
   let f2 = 2 .| 4
   let r = f1 * f2
   let state = { X = 0; Y = 0.0f; Quit = false }
-  let scripts = { StateScripts = [script1 state; script3 state; quit state] }
+  let scripts = { StateScripts = [script1; script3; quit] }
   let watch = System.Diagnostics.Stopwatch()
   do watch.Start()
   do gameLoop watch (watch.ElapsedMilliseconds |> float32) state scripts 60.0f (fun state -> state.Quit)
