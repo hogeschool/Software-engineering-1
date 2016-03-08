@@ -1,17 +1,17 @@
 ﻿module ScriptLanguage
 
-type Script<'input, 'a> =
-| Sequence of Script<'input,'a> * Script<'input,'a>
+type Script<'input> =
+| Sequence of Script<'input> * Script<'input>
 | Result of 'input
-| Execute of ('a -> unit) * 'a
+| Execute of ('input -> unit) * 'input
 | Call of ('input -> 'input)
 | Wait of float32
 | When of ('input -> bool)
 | Done
-| If of ('input -> bool) * Script<'input,'a> * Script<'input,'a>
-| While of ('input -> bool) * Script<'input,'a>
+| If of ('input -> bool) * Script<'input> * Script<'input>
+| While of ('input -> bool) * Script<'input>
 with
-  static member joinScripts (s1 : Script<'input,'a>) (s2: Script<'input,'a>) : Script<'input,'a> =
+  static member joinScripts (s1 : Script<'input>) (s2: Script<'input>) : Script<'input> =
     let rec join s1 s2 =
       match s1 with
       | Sequence(c1,n1) -> Sequence(c1, join n1 s2)
@@ -61,7 +61,7 @@ with
 let (>>) current next = Sequence(current,next)
 
 
-let rec scheduler (scripts : Script<'input,'a> list) (updatedScripts : Script<'input,'a> list) (input : 'input) (dt : float32) : (Script<'input,'a> list) * 'input =
+let rec scheduler (scripts : Script<'input> list) (updatedScripts : Script<'input> list) (input : 'input) (dt : float32) : (Script<'input> list) * 'input =
   match scripts with
   | [] -> updatedScripts |> List.rev,input
   | script :: scripts ->

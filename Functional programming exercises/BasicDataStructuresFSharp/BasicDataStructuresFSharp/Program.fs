@@ -53,7 +53,7 @@ type GameState =
 
 type ScriptManager = 
   {
-    StateScripts       : Script<GameState, GameState> list
+    StateScripts       : Script<GameState> list
   }
 with
    member this.Update(dt,state) =
