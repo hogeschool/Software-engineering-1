@@ -7,43 +7,55 @@ type Script<'input, 'a> =
 | Call of ('input -> 'input)
 | Wait of float32
 | When of ('input -> bool)
-| Return
+| Done
 | If of ('input -> bool) * Script<'input,'a> * Script<'input,'a>
 | While of ('input -> bool) * Script<'input,'a>
 with
+  static member joinScripts (s1 : Script<'input,'a>) (s2: Script<'input,'a>) : Script<'input,'a> =
+    let rec join s1 s2 =
+      match s1 with
+      | Sequence(c1,n1) -> Sequence(c1, join n1 s2)
+      | _ -> Sequence(s1,s2)
+    join s1 s2     
+      
   member this.Run(input,dt) =
     match this with
     | Wait t ->
         if t <= 0.0f then
-          Result input
+          input, Done
         else
-          Wait(t - dt)
+          input, Wait(t - dt)
     | When p ->
         if p input then
-          Result input
+          input, Done
         else
-          When p
-    | Result x -> Result x
-    | Return -> Result input
+          input, When p
     | Execute (f,arg) ->
         do f arg
-        Result input
+        input, Done
     | Call(f) ->
         let res = f input
-        Result res
+        res, Done
     | Sequence(current,next) ->
-        let res = current.Run(input,dt)
-        Sequence(res,next)
+        let res,script = current.Run(input,dt)
+        match script with
+        | Wait _
+        | When _ ->
+            res, Sequence(script,next)
+        | Done ->
+            next.Run(res,dt)
+        | _ -> failwith "Invalid script result while processing sequence"
     | If(c,_then,_else) ->
         if c input then
-          _then
+          _then.Run(input,dt)
         else
-          _else
+          _else.Run(input,dt)
     | While(c,block) ->
         if c input then
-          Sequence(block,While(c,block))
+          let newBlock = Script.joinScripts block (While(c,block))
+          newBlock.Run(input,dt)
         else
-          Result input
+          input, Done
         
 
 let (>>) current next = Sequence(current,next)
@@ -53,17 +65,9 @@ let rec scheduler (scripts : Script<'input,'a> list) (updatedScripts : Script<'i
   match scripts with
   | [] -> updatedScripts |> List.rev,input
   | script :: scripts ->
-      let executionResult = script.Run(input,dt)
-      match executionResult with
-      | Sequence(current,next) ->
-          match current with
-          | Result x ->
-              scheduler (next :: scripts) updatedScripts x dt
-          | If _
-          | While _ ->
-              scheduler (executionResult :: scripts) updatedScripts input dt
-          | _ ->
-              scheduler scripts (executionResult :: updatedScripts) input dt
+      let result, script = script.Run(input,dt)
+      match script with
       | Result x -> scheduler scripts updatedScripts x dt
-      | _ -> failwith "Invalid return type in script"
+      | Done -> scheduler scripts updatedScripts result dt
+      | _ -> scheduler scripts (script :: updatedScripts) result dt
 

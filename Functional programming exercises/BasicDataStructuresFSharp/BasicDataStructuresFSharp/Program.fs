@@ -48,6 +48,7 @@ type GameState =
   {
     X     : int
     Y     : float32
+    Quit  : bool
   }
 
 type ScriptManager = 
@@ -71,33 +72,38 @@ let script2 gameState =
       Call (fun state -> {state with X = 0})))
 
 let script3 gameState =
-  While((fun _ -> true),
-                      (If ((fun state -> state.X < 4),Sequence(Call((fun state -> {state with Y = state.Y + 0.1f})),Wait 0.5f),
-                          Sequence(Call(fun state -> {state with Y = state.Y - 0.1f}),Wait 0.5f))))
+  While((fun state -> state.Y >= 0.0f),
+                      (If ((fun state -> state.X < 4),Sequence(Call((fun state -> {state with Y = state.Y + 0.1f})),Wait 0.05f),
+                          Sequence(Call(fun state -> {state with Y = state.Y - 0.1f}),Wait 0.05f))))
+
+let quit gameState =
+  When(fun state -> state.Y < 0.0f) >> (
+    Call(fun state -> {state with Quit = true}))
+    
 
 
 
 
 
-let rec gameLoop (watch : System.Diagnostics.Stopwatch) (before : float32) (state : GameState) (manager : ScriptManager) (frameRate : float32) =
+let rec gameLoop (watch : System.Diagnostics.Stopwatch) (before : float32) (state : GameState) (manager : ScriptManager) (frameRate : float32) (quitCondition : GameState -> bool)=
   let now = (watch.ElapsedMilliseconds |> float32) / 1000.0f
   let dt = (now - before |> float32)
-  if (dt >= 1.0f / frameRate) then
+  if (dt >= 1.0f / frameRate && quitCondition state |> not) then
     let updatedState,updatedManager = manager.Update(dt,state)
     do System.Console.Clear()
     do printfn "%A" updatedState
-    do gameLoop watch now updatedState updatedManager frameRate
-  else
-    do gameLoop watch before state manager frameRate
+    do gameLoop watch now updatedState updatedManager frameRate quitCondition
+  elif (quitCondition state |> not) then
+    do gameLoop watch before state manager frameRate quitCondition
 
 [<EntryPoint>]
 let main argv =
   let f1 = 5 .| 3
   let f2 = 2 .| 4
   let r = f1 * f2
-  let state = { X = 0; Y = 0.0f }
-  let scripts = { StateScripts = [script3 state] }
+  let state = { X = 0; Y = 0.0f; Quit = false }
+  let scripts = { StateScripts = [script1 state; script3 state; quit state] }
   let watch = System.Diagnostics.Stopwatch()
   do watch.Start()
-  do gameLoop watch (watch.ElapsedMilliseconds |> float32) state scripts 60.0f
+  do gameLoop watch (watch.ElapsedMilliseconds |> float32) state scripts 60.0f (fun state -> state.Quit)
   0 // return an integer exit code
