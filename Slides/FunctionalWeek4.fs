@@ -102,6 +102,17 @@ let slides =
         FSharpCodeBlock(TextSize.Small, ((If >> ((And >> True) >> False)) >> !!"0") >> !!"1")
       ]
 
+    VerticalStack
+      [
+        TextBlock @"\textbf{FSharp}"
+
+        FSharpCodeBlock(TextSize.Small, ((If >> ((And >> True) >> False)) >> !!"0") >> !!"1")
+
+        TextBlock @"\textbf{Lambda calculus}"
+        LambdaCodeBlock(TextSize.Small, ((If >> ((And >> True) >> False)) >> !!"0") >> !!"1")
+        LambdaCodeBlock(TextSize.Small, (deltaRules If).Value >> ((And >> True) >> False) >> !!"0" >> !!"1")
+      ]
+
     SubSection("Anonymous functions")
     VerticalStack
       [
@@ -114,12 +125,35 @@ let slides =
         FSharpCodeBlock(TextSize.Small, ((-"x" ==> (-"f" ==> (!!"f" >> !!"x"))) >> !!"3") >> (-"x" ==> ((Plus >> !!"3") >> !!"x")))
       ]
 
+    VerticalStack
+      [
+        TextBlock @"\textbf{FSharp}"
+        FSharpCodeBlock(TextSize.Small, ((-"x" ==> (-"f" ==> (!!"f" >> !!"x"))) >> !!"3") >> (-"x" ==> ((Plus >> !!"3") >> !!"x")))
+
+        TextBlock @"\textbf{Lambda calculus}"
+        LambdaCodeBlock(TextSize.Small, ((-"x" ==> (-"f" ==> (!!"f" >> !!"x"))) >> !!"3") >> (-"x" ==> ((Plus >> !!"3") >> !!"x")))
+        
+      ]
+
     SubSection("Named functions")
     VerticalStack
       [
         TextBlock @"We can give names to functions, and code becomes much prettier as a result"
 
         FSharpCodeBlock(TextSize.Small, Let(-"apply", -"x" ==> (-"f" ==> (!!"f" >> !!"x")), (!!"apply" >> !!"3") >> (-"x" ==> ((Plus >> !!"3") >> !!"x"))))
+
+        //LambdaCodeBlock(TextSize.Small, Let(-"apply", -"x" ==> (-"f" ==> (!!"f" >> !!"x")), (!!"apply" >> !!"3") >> (-"x" ==> ((Plus >> !!"3") >> !!"x"))))
+      ]
+
+    VerticalStack
+      [
+        TextBlock @"\textbf{FSharp}"
+        FSharpCodeBlock(TextSize.Small, Let(-"apply", -"x" ==> (-"f" ==> (!!"f" >> !!"x")), (!!"apply" >> !!"3") >> (-"x" ==> ((Plus >> !!"3") >> !!"x"))))
+
+        TextBlock @"\textbf{Lambda calculus}"
+        LambdaCodeBlock(TextSize.Small, Let(-"apply", -"x" ==> (-"f" ==> (!!"f" >> !!"x")), (!!"apply" >> !!"3") >> (-"x" ==> ((Plus >> !!"3") >> !!"x"))))
+        LambdaCodeBlock(TextSize.Small, (deltaRules (Let(-"apply",-"x" ==> (-"f" ==> (!!"f" >> !!"x")), (!!"apply" >> !!"3") >> (-"x" ==> ((Plus >> !!"3") >> !!"x"))))).Value)
+
       ]
 
 
@@ -134,12 +168,37 @@ let slides =
               !!"fact" >> !!"2"))
       ]
 
+    VerticalStack
+      [
+        TextBlock @"\textbf{FSharp}"
+        FSharpCodeBlock(TextSize.Small, 
+          Let(-"fact", 
+              (Fix >> (-"f" ==> (-"n" ==> ((If >> (IsZero >> !!"n") >> !!"1") >> ((Mult >> (!!"f" >> ((Minus >> !!"n") >> !!"1"))) >> !!"n"))))), 
+              !!"fact" >> !!"2"))
+
+        TextBlock @"\textbf{Lambda calculus}"
+        LambdaCodeBlock(TextSize.Small,
+          (Let(-"fact", 
+                        (Fix >> (-"f" ==> (-"n" ==> ((If >> (IsZero >> !!"n") >> !!"1") >> ((Mult >> (!!"f" >> ((Minus >> !!"n") >> !!"1"))) >> !!"n"))))), 
+                        !!"fact" >> !!"2")))
+      ]
+
     SubSection("Pairs")
     VerticalStack
       [
         TextBlock @"We can define tuples by just putting a comma between the values, with or without nesting for more than two values is done for us"
 
         FSharpCodeBlock(TextSize.Small, (MakePair >> !!"1") >> True)
+      ]
+
+    VerticalStack
+      [
+        TextBlock @"\textbf{FSharp}"
+        FSharpCodeBlock(TextSize.Small, (MakePair >> !!"1") >> True)
+
+        TextBlock @"\textbf{Lambda calculus}"
+        LambdaCodeBlock(TextSize.Small, (MakePair >> !!"1") >> True)
+        LambdaCodeBlock(TextSize.Small, ((deltaRules MakePair).Value >> !!"1") >> True)
       ]
 
     ItemsBlock
@@ -161,6 +220,19 @@ let slides =
 
         FSharpCodeBlock(TextSize.Small, First >> ((MakePair >> !!"1") >> True))
         FSharpCodeBlock(TextSize.Small, Second >> ((MakePair >> !!"1") >> True))
+      ]
+
+    VerticalStack
+      [
+        TextBlock @"\textbf{FSharp}"
+        FSharpCodeBlock(TextSize.Small, First >> ((MakePair >> !!"1") >> True))
+        FSharpCodeBlock(TextSize.Small, Second >> ((MakePair >> !!"1") >> True))
+
+        TextBlock @"\textbf{Lambda calculus}"
+        LambdaCodeBlock(TextSize.Small, First >> ((MakePair >> !!"1") >> True))
+        LambdaCodeBlock(TextSize.Small, (deltaRules First).Value >> ((MakePair >> !!"1") >> True))
+        LambdaCodeBlock(TextSize.Small, Second >> ((MakePair >> !!"1") >> True))
+        LambdaCodeBlock(TextSize.Small, (deltaRules Second).Value >> ((MakePair >> !!"1") >> True))
       ]
 
     VerticalStack
@@ -196,6 +268,19 @@ let slides =
 
         FSharpCodeBlock(TextSize.Small, Inl >> !!"1")
         FSharpCodeBlock(TextSize.Small, Inr >> True)
+      ]
+
+    VerticalStack
+      [
+        TextBlock @"\textbf{FSharp}"
+        FSharpCodeBlock(TextSize.Small, Inl >> !!"1")
+        FSharpCodeBlock(TextSize.Small, Inr >> True)
+
+        TextBlock @"\textbf{Lambda calculus}"
+        LambdaCodeBlock(TextSize.Small, Inl >> !!"1")
+        LambdaCodeBlock(TextSize.Small, (deltaRules Inl).Value >> !!"1")
+        LambdaCodeBlock(TextSize.Small, Inr >> True)
+        LambdaCodeBlock(TextSize.Small, (deltaRules Inr).Value >> True)
       ]
 
     VerticalStack
