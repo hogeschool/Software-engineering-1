@@ -63,8 +63,8 @@ with
 let script1 =
   Wait 0.5f >> (
     Call ((fun state -> {state with X = state.X + 1})) >> (
-      Wait 2.0f >>
-        Call ((fun state -> {state with X = state.X + 3}))))
+      Wait 2.0f >> (
+        Call ((fun state -> {state with X = state.X + 3})))))
 
 let script2 = 
   When (fun state -> state.X >= 4) >> (
