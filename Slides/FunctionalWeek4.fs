@@ -214,7 +214,7 @@ let slides =
       [
         ItemsBlock
           [
-            ! @"Functions such as $\pi_1$ and $pi_2$, which both extract one item of a pair, also exist in F\#"
+            ! @"Functions such as $\pi_1$ and $\pi_2$, which both extract one item of a pair, also exist in F\#"
             ! @"They are called, respectively, \texttt{fst} and \texttt{snd}"
           ]
 

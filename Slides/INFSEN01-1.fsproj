@@ -53,6 +53,7 @@
     <Compile Include="FunctionalWeek4.fs" />
     <Compile Include="FunctionalWeek5.fs" />
     <Compile Include="FunctionalWeek6.fs" />
+    <Compile Include="FunctionalWeek7.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="SampleExam1.fs" />
     <Compile Include="SampleExam2.fs" />
@@ -71,6 +72,9 @@
     <None Include="INFSEN02-1-SampleExam3.pdf" />
     <None Include="INFSEN02-1-SampleExam4.pdf" />
     <None Include="INFSEN02-1-SampleExam5.pdf" />
+    <None Include="thunks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\LatexSlideGenerator\Slides\LatexSlidesGenerator.fsproj">
