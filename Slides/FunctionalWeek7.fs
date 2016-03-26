@@ -180,7 +180,7 @@ let slides =
         ItemsBlock
           [
             ! @"Haskell also offers built-in discriminated unions"
-            ! @"Functions such as \texttt{inl} and \texttt{inr}, which both embed one item into the union, also exist in F\#"
+            ! @"Functions such as \texttt{inl} and \texttt{inr}, which both embed one item into the union, also exist in Haskell"
             ! @"They are called, respectively, \texttt{Left} and \texttt{Right}"
           ]
 
@@ -253,8 +253,9 @@ let slides =
     VerticalStack
       [
         TextBlock @"Since the type declaration is separated from the function body, type variables for generics can be written as normal variables"
+        TextBlock @"Note that in Haskell the type of a list is written as [a] where a is a concrete type or a type variable"
         HaskellCodeBlock(TextSize.Small,
-                          HaskellFuncDef("length", Some [!!"a";!!"Integral"],
+                          HaskellFuncDef("length", Some [!!"[a]";!!"Integral"],
                                           [-"[]" ==> !!"0";-"(x:xs)" ==> (Plus >> !!"1" >> (!!"length" >> !!"xs"))]))
       ]
     Section("Lazy evaluation")
@@ -299,7 +300,7 @@ let slides =
         GenericCodeBlock(TextSize.Small, true, "let \n  z = (length [1,2],reverse [1,2]) \n  (n,s) = z\n  (1::ss) = s\nin ...")
         ItemsBlock
           [
-            ! @"At line 3 the compiler must know if \texttt{s} is a list with the number 1 as head to match the pattern"
+            ! @"At line 4 the compiler must know if \texttt{s} is a list with the number 1 as head to match the pattern"
             ! @"The compiler needs to know if \texttt{s} is a list, thus it evaluates the result of \textttt{reverse} as a list with a thunk as a head and another thunk as a tail, so we have thunk:thunk"
             ! @"The compiler needs to know if the head of \texttt{s} matches the number 1, thus we have 1:thunk"
           ]
@@ -308,17 +309,7 @@ let slides =
       [
         ItemsBlock
           [
-            ! @"The figure below shows the possible evaluation of (4, [1,2])"
-            ! @"WHNF = \textit{Weak head normal form}, i.e. when the evaluation contains both values and thunks"
-            ! @"NF = \textit{Normal form}, i.e. when the evaluation contains only values and no thunks"
-          ]
-        Figure("thunks",0.2)
-      ]
-    VerticalStack
-      [
-        ItemsBlock
-          [
-            ! @"The figure below shows the possible evaluation of (4, [1,2])"
+            ! @"The figure below shows the possible evaluation of (2, [1,2])"
             ! @"WHNF = \textit{Weak head normal form}, i.e. when the evaluation contains both values and thunks"
             ! @"NF = \textit{Normal form}, i.e. when the evaluation contains only values and no thunks"
           ]
