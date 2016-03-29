@@ -14,13 +14,13 @@ let fact =
 
 let slides =
   [
-
-    Section( @"Translating Lamda calculus to Haskell")
+    Section( @"Translating Lambda calculus to Haskell")
     SubSection("Overview")
     ItemsBlock
       [
-        ! @"Haskell can be  translated mapped to Lambda Calculus as we did for F\#"
+        ! @"Haskell can be mapped to the lambda calculus as we did for F\#"
         ! @"It is slightly different than F\# with respect to let-bindings"
+        ! @"It uses a different evaluation strategy than the straightforward beta reduction seen so far"
       ]
 
     SubSection("Basic expressions")
@@ -223,13 +223,13 @@ let slides =
             (-"y" ==> (Inr >> !!"y")))
       ]
 
-    SubSection("Type Annotation")
+    SubSection("Type annotations")
     VerticalStack
       [
         ItemsBlock
           [
-            ! @"Type annotation in haskell is quite different from F\#"
-            ! @"A function type definition is separated from the function body definition"
+            ! @"Type annotations in haskell are quite different from F\#"
+            ! @"The declaration of the function types is separated from the body"
           ]
         HaskellCodeBlock(TextSize.Small,
                           HaskellFuncDef("fact",Some [!!"Integral";!!"Integral"],
@@ -237,7 +237,6 @@ let slides =
 
       ]
 
-    SubSection("Type Annotation")
     VerticalStack
       [
         ItemsBlock
@@ -290,7 +289,7 @@ let slides =
           [
             ! @"At line 1 line \texttt{z} is simply a thunk"
             ! @"At line 2 the compiler must know if \texttt{z} is actually a pair, because the pattern must match the let binding"
-            ! @"The compiler does not need to evaluate the content of the pair, just know if \texttt{z} is actually a pair"
+            ! @"The compiler does not need to evaluate the content of the pair"
             ! @"Thus \texttt{(n,s)} becomes a pair of thunks, i.e. \texttt{z = (thunk,thunk)}"
           ]
       ]
@@ -320,8 +319,8 @@ let slides =
       [
         ItemsBlock
           [
-            ! @"In Haskell standard library we have a value called \texttt{undefined} which is used to capture errors in the program"
-            ! @"When the program evaluates \texttt{undefined}, it halts its execution and returns an error"
+            ! @"In the Haskell standard library we have a value called \texttt{undefined} which is used to capture errors in the program"
+            ! @"When the program evaluates \texttt{undefined}, execution halts and an error is returned"
             ! @"Now consider the following code:"
           ]
         GenericCodeBlock(TextSize.Small, false, "let \n  failMiserably = \\x -> undefined \n  (x,y) = (4,failMiserably \"Please crash\") \nin\n  x")
@@ -354,7 +353,7 @@ let slides =
       [
         ItemsBlock
           [
-            ! @"In Haskell the main function always comes with a \texttt{do} notation"
+            ! @"In Haskell the main function is always\footnote{For a large enough value of \textit{always}} defined as a \texttt{do} block"
             ! @"For example:"
           ]
         GenericCodeBlock(TextSize.Small, false, "main = do\n  putStr(\"Velociraptor\\n\")\n  print (velociraptor 30.0 10)")
@@ -372,6 +371,15 @@ let slides =
             ! @"If you are interested take a look at the State monad."
             ! @"In particular the IO Monad allows you to handle side effects, thus print on the shell"
           ]
+      ]
+
+    Section( @"Conclusion")
+    SubSection("Closing up")
+    ItemsBlock
+      [
+        ! @"Haskell can be mapped to the lambda calculus as we did for F\#: it looks mostly the same"
+        ! @"It does not feature non-recursive let-bindings"
+        ! @"It uses a lazy evaluation strategy that delays expanding values for as long as possible"
       ]
   ]
 

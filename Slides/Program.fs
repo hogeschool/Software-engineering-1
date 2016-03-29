@@ -9,7 +9,6 @@ let main argv =
 //  do batchProcess LatexDefinition.generatePresentation FunctionalWeek5.slides "INFSEN02-1-Lec5-Types" "The INFDEV@HR Team" "Types, inference, and F\# data types" true false
 //  do batchProcess LatexDefinition.generatePresentation FunctionalWeek6.slides "INFSEN02-1-Lec6-Practicum" "The INFDEV@HR Team" "Setting up a functional application" true false
   do batchProcess LatexDefinition.generatePresentation FunctionalWeek7.slides "INFSEN02-1-Lec7-Haskell" "The INFDEV@HR Team" "Haskell" true true
-  // Lecture 7 Haskell translations and laziness
   // Lecture 8 (optional lecture) advanced patterns and practices: monads, up to coroutines
 
 //  do batchProcess LatexDefinition.generateDocument SampleExams.Exam1.slides "INFSEN02-1-SampleExam1" "The INFDEV@HR Team" "INFSEN02-1 Sample exam" true false
