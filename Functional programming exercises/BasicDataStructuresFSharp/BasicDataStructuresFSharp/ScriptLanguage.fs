@@ -2,8 +2,6 @@
 
 type Script<'input> =
 | Sequence of Script<'input> * Script<'input>
-| Result of 'input
-| Execute of ('input -> unit) * 'input
 | Call of ('input -> 'input)
 | Wait of float32
 | When of ('input -> bool)
@@ -30,9 +28,6 @@ with
           input, Done
         else
           input, When p
-    | Execute (f,arg) ->
-        do f arg
-        input, Done
     | Call(f) ->
         let res = f input
         res, Done
@@ -42,9 +37,9 @@ with
         | Wait _
         | When _ ->
             res, Sequence(script,next)
-        | Done ->
+        | _ ->
             next.Run(res,dt)
-        | _ -> failwith "Invalid script result while processing sequence"
+        //| _ -> failwith "Invalid script result while processing sequence"
     | If(c,_then,_else) ->
         if c input then
           _then.Run(input,dt)
@@ -68,7 +63,6 @@ let rec scheduler (scripts : Script<'input> list) (updatedScripts : Script<'inpu
   | script :: scripts ->
       let result, script = script.Run(input,dt)
       match script with
-      | Result x -> scheduler scripts updatedScripts x dt
       | Done -> scheduler scripts updatedScripts result dt
       | _ -> scheduler scripts (script :: updatedScripts) result dt
 
