@@ -35,8 +35,8 @@ with
         let res,script = current.Run(input,dt)
         match script with
         | Wait _
-        | When _ ->
-            res, Sequence(script,next)
+        | When _ ->res, Sequence(script,next)
+        | Sequence _ -> res,Script.joinScripts script next  
         | _ ->
             next.Run(res,dt)
         //| _ -> failwith "Invalid script result while processing sequence"

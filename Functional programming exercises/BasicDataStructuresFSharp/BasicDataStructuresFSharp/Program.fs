@@ -118,8 +118,16 @@ let script3 =
 let script4 = 
   While ((fun _ -> true),When(fun state -> state.X >= 4) >> (Call((fun state -> {state with Y = state.Y - 0.1f})) >> (Wait 0.05f)))
 
+
+let incrementX =
+  (While((fun state -> state.X < 3),
+    (Wait 1.0f) >>
+    (Call (fun state -> { state with X = state.X + 1 })))) >> (Wait 1.0f >>
+      (While((fun state -> state.Y > 0.0f),Call(fun state -> { state with Y = state.Y - 0.05f }) >> (Wait 0.05f))))
+
+
 let quit =
-  When(fun state -> state.Y < 0.0f) >> (
+  When(fun state -> state.Y <= 0.0f) >> (
     Call(fun state -> {state with Quit = true}))
     
 
@@ -144,7 +152,7 @@ let main argv =
   let f2 = 2 .| 4
   let r = f1 * f2
   let state = { X = 0; Y = 4.0f; Quit = false }
-  let scripts = { StateScripts = [script1; script4;quit] }
+  let scripts = { StateScripts = [incrementX;quit] }
   let watch = System.Diagnostics.Stopwatch()
   do watch.Start()
   do schedulerLoop watch (watch.ElapsedMilliseconds |> float32) state scripts 60.0f (fun state -> state.Quit)
