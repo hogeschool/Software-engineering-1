@@ -1,0 +1,25 @@
+1.
+Write a function that, given three numbers, returns 
+- "first" if the first number is the greatest of all three; 
+- "second" if the second number is the greatest of all three; 
+- "third" if the third number is the greatest of all three.
+
+
+2. 
+Write a function "tau0" that takes an instance of Option<'a>
+and converts it into an instance of List<'a>. For example:
+
+tau0 None = []
+
+tau0 (Some 10) = [10]
+
+
+3 and 4. Write a recursive function "tau1" with type (Option<'a> -> Option<'b>) -> List<'a> -> List<'b>.
+
+The function should run the input function on every element of the list and puts the result in the output list.
+
+
+5.
+A person is a record containing a name, a surname, and a date of birth. Define
+the date and person records and an "age" function that takes as input a person and
+returns the same person, older by one year, one month, and one day.
