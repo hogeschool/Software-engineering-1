@@ -1,0 +1,17 @@
+A program in Assembly SVM consists of one or more lines, each one containing a \textbf{single statement} in Assembly SVM. Thus, different statements must be written in different lines of the program. You can comment part of your program with the same syntax of Java/C++/C\# languages, that is // for single line comments and /* */ for multi-line comments. Also empty lines and white spaces are simply ignored by the parser, like in traditional programming languages. The language has three main categories of instructions:
+
+\begin{itemize}
+	\item \textit{Memory manipulation}: this statement takes two argments, one being the memory location/register to which you want to copy the data, and one being the data, memory location, or register you want to copy from.
+	\item \textit{Operators}: they might be unary (with one argument) or binary (with two arguments).
+	\item \textit{Labels}: They are identifiers that can be use to reference specific points of the program. To define a labels simply use the symbol \texttt{\#} followed by a variable name, which can be any alphanumerical sequence of characters starting with a letter. They can also contain the symbol '\textunderscore'. For example \texttt{\#hello\textunderscore world} is a valid label name, while \texttt{\#090error} is not a valid label name.
+	\item \textit{Jump statements}: they alter the program counter by setting it to the line where a specific label is defined, thus allowing to implement the equivalent of \texttt{if-then-else} and \texttt{loops} of imperative programming.
+\end{itemize}
+
+The argument of an instruction can have three different types:
+
+\begin{itemize}
+	\item \textit{Literals}: they are constant values like numbers (\texttt{10}, \texttt{1053.23}) or strings (\texttt{"Hello world!"}).
+	\item \textit{Memory addresses}: they are defined as integer numbers enclosed by square brackets, like \texttt{[100]}, which means ``the memory location at index 100''.
+	\item \textit{Registers}: they are simply denoted with the keywords \texttt{reg1}, \texttt{reg2}, \texttt{reg3}, and \texttt{reg4}.
+	\item \textit{Register references}: they are used when a register contains an integer number representing the address of a memory location, rather than a value. It is written just by enclosing the register keyword with square brackets. For instance, \texttt{[reg1]} means ``the content of the memory address stored in \texttt{reg1}. Thus, if the register contains the value 1000, this will use the content of the memory location at 1000.
+\end{itemize}
