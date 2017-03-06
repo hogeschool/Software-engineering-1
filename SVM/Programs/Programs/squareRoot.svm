@@ -1,0 +1,22 @@
+﻿/* Compute the square root of the number stored in [0] and saves
+   the result in [1] */
+
+mov [0] 3.0
+mov [1] [0]
+mov [2] 10
+mov reg3 0
+
+#loop
+mov reg1 [1]
+mov reg2 [0]
+div reg2 reg1
+add reg1 reg2
+div reg1 2.0
+mov [1] reg1
+mov reg4 reg3
+cmp reg4 [2]
+add reg3 1
+jeq endloop reg4
+jmp loop
+#endloop
+nop

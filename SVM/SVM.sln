@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SVM", "SVM\SVM.fsproj", "{F014F9A3-BCAD-4202-8F5C-A9D75864F171}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SVMParser", "SVMParser\SVMParser.fsproj", "{2634F623-9A00-41D3-B0D7-D2022CB7A5A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Programs", "Programs\Programs.csproj", "{9295FE34-E52C-46C4-AA16-DBFEB98CB479}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F014F9A3-BCAD-4202-8F5C-A9D75864F171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F014F9A3-BCAD-4202-8F5C-A9D75864F171}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F014F9A3-BCAD-4202-8F5C-A9D75864F171}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F014F9A3-BCAD-4202-8F5C-A9D75864F171}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2634F623-9A00-41D3-B0D7-D2022CB7A5A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2634F623-9A00-41D3-B0D7-D2022CB7A5A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2634F623-9A00-41D3-B0D7-D2022CB7A5A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2634F623-9A00-41D3-B0D7-D2022CB7A5A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9295FE34-E52C-46C4-AA16-DBFEB98CB479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9295FE34-E52C-46C4-AA16-DBFEB98CB479}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9295FE34-E52C-46C4-AA16-DBFEB98CB479}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9295FE34-E52C-46C4-AA16-DBFEB98CB479}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

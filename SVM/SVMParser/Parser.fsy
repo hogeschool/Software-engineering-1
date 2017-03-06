@@ -1,0 +1,134 @@
+%{
+  open SVMAST
+  open System
+  open ParserUtils
+
+  let makeReg reg =
+    Literal.Register(fst reg,snd reg)
+    
+%}
+
+%start start
+
+
+//SVM literals
+%token <int * (int * int)> INT
+%token <float * (int * int)> FLOAT
+%token <string * (int * int)> STRING
+%token <int * int> REG1
+%token <int * int> REG2
+%token <int * int> REG3
+%token <int * int> REG4
+
+//SVM instructions
+%token <int * int> NOP
+%token <int * int> MOV
+%token <int * int> AND
+%token <int * int> OR
+%token <int * int> NOT
+%token <int * int> MOD
+%token <int * int> ADD
+%token <int * int> SUB
+%token <int * int> MUL
+%token <int * int> DIV
+%token <int * int> CMP
+%token <int * int> JMP
+%token <int * int> JC
+%token <int * int> JEQ
+
+%token <string * (int * int)> ID
+
+
+%token EOF NEWLINE LSQBRACKET RSQBRACKET LABELDEF COLON END
+
+%type <SVMAST.Program> start
+
+%%
+
+start: program EOF { $1 }
+
+newlineSeq:
+| NEWLINE newlineSeq {  }
+| NEWLINE {  }
+
+program: newlineOpt instructionSeq { $2 }
+
+register:
+| REG1 { Reg1,$1 }
+| REG2 { Reg2,$1 }
+| REG3 { Reg3,$1 }
+| REG4 { Reg4,$1 }
+
+literal:
+| INT { Integer (fst $1,snd $1) }
+| FLOAT {Float (fst $1,snd $1) }
+| STRING { Literal.String (fst $1,snd $1) }
+| register { makeReg $1 }
+| address { $1 }
+
+address:
+| LSQBRACKET INT RSQBRACKET { Address(Integer(fst $2,snd $2)) }
+| LSQBRACKET register RSQBRACKET { Address(makeReg $2) }
+
+adressOrReg:
+| address { $1 }
+| register { makeReg $1 }
+
+anyBinaryOpErr:
+| AND { $1,"AND" }
+| OR { $1,"OR" }
+| MOD { $1,"MOD" }
+| ADD { $1,"ADD" }
+| SUB { $1,"SUB" }
+| MUL { $1,"MUL" }
+| DIV { $1,"DIV" }
+
+anyOpErr:
+| anyBinaryOpErr { $1 }
+| NOT { $1,"NOT" }
+
+instruction:
+| NOP { Nop $1 }
+| MOV adressOrReg literal { Mov($2,$3,$1) }
+| AND register literal { And(fst $2,$3,$1) }
+| OR register literal { Or(fst $2,$3,$1) }
+| NOT register { Not(fst $2,$1) }
+| MOD register literal { Mod(fst $2,$3,$1) }
+| ADD register literal { Add(fst $2,$3,$1) }
+| SUB register literal { Sub(fst $2,$3,$1) }
+| MUL register literal { Mul(fst $2,$3,$1) }
+| DIV register literal { Div(fst $2,$3,$1) }
+| CMP register literal { Cmp(fst $2,$3,$1) }
+| JMP ID { Jmp(fst $2,$1) }
+| JC ID register { Jc(fst $2,fst $3,$1) }
+| JEQ ID register { Jeq(fst $2,fst $3,$1) }
+| LABELDEF ID { Label(fst $2,snd $2) }
+
+//rules for parse errors
+| MOV error literal { errAtPos "The first argument of MOV should be an address or register" $1 }
+| MOV adressOrReg error { errAtPos "Invalid second argument format for MOV" $1 }
+| anyBinaryOpErr error literal { errAtPos (sprintf "The first argument of %s should be a register" (snd $1)) (rhs parseState 2) }
+| AND register error { errAtPos "The second argument of AND should be a constant, an address, or a register" (rhs parseState 3) }
+| OR register error { errAtPos "The second argument of OR should be a constant, an address, or a register" (rhs parseState 3) }
+| NOT error { errAtPos "The  argument of NOT should be a constant, an address, or a register" (rhs parseState 2) }
+| MOD register error { errAtPos "The second argument of MOD should be a constant, an address, or a register" (rhs parseState 3) }
+| ADD register error { errAtPos "The second argument of ADD should be a constant, an address, or a register" (rhs parseState 3) }
+| SUB register error { errAtPos "The second argument of SUB should be a constant, an address, or a register" (rhs parseState 3) }
+| MUL register error { errAtPos "The second argument of MUL should be a constant, an address, or a register" (rhs parseState 3) }
+| DIV register error { errAtPos "The second argument of DIV should be a constant, an address, or a register" (rhs parseState 3) }
+| CMP register error { errAtPos "The second argument of CMP should be a constant, an address, or a register" (rhs parseState 3) }
+| JMP error { errAtPos "The argument of JMP should be a label" (rhs parseState 2) } 
+| JC error register { errAtPos "The first argument of JC should be a label" (rhs parseState 2) } 
+| JC ID error { errAtPos "The second argument of JC should be a register " (rhs parseState 3) }
+| JEQ ID error { errAtPos "The second argument of JEQ should be a register " (rhs parseState 3) }
+| LABELDEF error { errAtPos "The argument of a label definition should be an identifier " (rhs parseState 2)  }
+
+newlineOpt:
+| newlineSeq {  }
+| {  }
+
+instructionSeq:
+| instruction newlineSeq instructionSeq { $1 :: $3 }
+| instruction { [$1] }
+| instruction instructionSeq { errAtPos "Instructions should be written one per line" (rhs parseState 2) }
+|  { [] }

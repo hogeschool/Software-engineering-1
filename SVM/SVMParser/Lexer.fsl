@@ -1,0 +1,70 @@
+{
+
+module Lexer
+
+// Opens methods related to fslex.exe
+open Microsoft.FSharp.Text.Lexing
+open System
+open ParserUtils
+
+let lexeme lexbuf =
+   LexBuffer<char>.LexemeString lexbuf
+let newline (lexbuf : LexBuffer<_>) = lexbuf.EndPos <- lexbuf.EndPos.NextLine
+
+let range (lexbuf : LexBuffer<_>) = lexbuf.EndPos.Line + 1, lexbuf.EndPos.Column
+
+}
+
+// Regular expressions
+let whitespace = [' ' '\t' ]
+let newline = ('\n' | '\r' '\n')
+let digit = ['0'-'9']
+let letter = ['a'-'z' 'A'-'Z']
+let idbody = ['a'-'z' 'A'-'Z' '0'-'9' '_']*
+let Id = ['a'-'z' 'A'-'Z' '_'] idbody
+
+rule linecomment = parse
+| newline       { newline lexbuf; tokenstream lexbuf }
+| _             { linecomment lexbuf }
+
+and comment = parse
+| "*/"    { tokenstream lexbuf }
+| newline            { newline lexbuf; comment lexbuf }
+| _  { comment lexbuf }
+
+and tokenstream = parse
+| "//"        { linecomment lexbuf }
+| "/*"        { comment lexbuf }
+| whitespace	{ tokenstream lexbuf }
+| '[' { Parser.LSQBRACKET }
+| ']' { Parser.RSQBRACKET }
+| '#' { Parser.LABELDEF }
+| ':' { Parser.COLON }
+| newline	{ newline lexbuf; Parser.NEWLINE }
+| "reg1" { Parser.REG1 (range lexbuf) }
+| "reg2" { Parser.REG2 (range lexbuf) }
+| "reg3" { Parser.REG3 (range lexbuf) }
+| "reg4" { Parser.REG4 (range lexbuf) }
+| "nop" { Parser.NOP (range lexbuf) }
+| "mov" { Parser.MOV (range lexbuf) }
+| "and" { Parser.AND (range lexbuf) }
+| "or" { Parser.OR (range lexbuf) }
+| "not" { Parser.NOT (range lexbuf) }
+| "mod" { Parser.MOD (range lexbuf) }
+| "add" { Parser.ADD (range lexbuf) }
+| "sub" { Parser.SUB (range lexbuf) }
+| "mul" { Parser.MUL (range lexbuf) }
+| "div" { Parser.DIV (range lexbuf) }
+| "cmp" { Parser.CMP (range lexbuf) }
+| "jmp" { Parser.JMP (range lexbuf) }
+| "jc" { Parser.JC (range lexbuf) }
+| "jeq" { Parser.JEQ (range lexbuf) }
+| eof   	{ Parser.EOF }
+| ['-']?digit+   { Parser.INT (Int32.Parse(LexBuffer<_>.LexemeString lexbuf),(range lexbuf)) }
+| ['-']?digit+('.'digit+)?(['e''E']digit+)?   { Parser.FLOAT (Double.Parse(LexBuffer<_>.LexemeString lexbuf),(range lexbuf)) }
+| "\"" [^'"']* "\"" { let s = LexBuffer<_>.LexemeString lexbuf in Parser.STRING ((s.Trim [|'\"'|]),(range lexbuf)) }
+| Id { Parser.ID((LexBuffer<_>.LexemeString lexbuf),range lexbuf) }
+| _    		{
+  let pos = range lexbuf 
+  raise(ParseError(sprintf "Parse Error: unidentified token %A" (LexBuffer<_>.LexemeString lexbuf), fst pos, snd pos)) }
+

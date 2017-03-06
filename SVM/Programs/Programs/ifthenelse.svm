@@ -1,0 +1,30 @@
+﻿/*
+if (x > 0)
+  x -= 1;
+else
+  x += 1;
+*/
+
+//initialize the variable x for testing
+mov [15] 5
+//move the content of address 15 in reg1
+mov reg1 [15]
+//move the constant 0 in reg2
+mov reg2 0 
+//compare reg1 with reg2
+cmp reg1 reg2
+//negate the result (we want to jump if x <= 0)
+not reg1
+jc else reg1
+//move back x into reg1 (it has been overwritten)
+mov reg1 [15]
+// x -= 1
+sub reg1 1
+//skip the else block 
+jmp endif
+#else
+// x += 1
+add reg1 1
+#endif
+//update the variable
+mov [15] reg1
