@@ -16,11 +16,11 @@ Below you find the details of all the operators accepted by the SVM language. No
 	\hline
 	MOV & Address or Register & Register, Address, or Constant & Copy the content or value of Arg2 into Arg1. If the memory address is out of range then it throws a runtime exception. \\
 	\hline
-	AND & Register & Register, Address, or Constant & If both arguments are $>=$ 0 then it stores 1 into Arg1, otherwise 0. It accepts only integer numbers, otherwise it raises a runtime exception. \\
+	AND & Register & Register, Address, or Constant & If both arguments are $>=$ 0 then it stores 1 into Arg1, otherwise -1. It accepts only integer numbers, otherwise it raises a runtime exception. \\
 	\hline
-	OR & Register & Register, Address, or Constant & If both arguments are $<$ 0 then it stores 0 into Arg1, otherwise 1. It accepts only integer numbers, otherwise it raises a runtime exception. \\
+	OR & Register & Register, Address, or Constant & If both arguments are $<$ 0 then it stores -1 into Arg1, otherwise 1. It accepts only integer numbers, otherwise it raises a runtime exception. \\
 	\hline
-	NOT & Register & None & If the argument is positive, it stores -1 in Arg1, otherwise it stores 0. It accepts only an integer number, otherwise it raises a runtime exception. \\
+	NOT & Register & None & If the argument is non-negative, it stores -1 in Arg1, otherwise it stores 0. It accepts only an integer number, otherwise it raises a runtime exception. \\
 	\hline
 	MOD & Register & Register, Address, or Constant & It computes the modulus operation (remainder of the integer division) with Arg1 and Arg2 and stores the result in Arg1. It accepts only numerical arguments (integer or float), otherwise it raises a runtime exception. \\
 	\hline
