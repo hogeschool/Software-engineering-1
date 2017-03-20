@@ -1,4 +1,4 @@
-﻿module SolvedExercises
+﻿module Reduction
 
 open CommonLatex
 open LatexDefinition
