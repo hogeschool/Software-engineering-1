@@ -65,7 +65,16 @@ let slides =
     VerticalStack
       [
         Small
-        TextBlock "Build, in groups of max four, an interpreter for a virtual machine according to the specifications given in the document that will be published during the course."
+        TextBlock "Build, in groups of max four, any of the following applications in either Haskell or F\#:"
+
+        ItemsBlock
+          [
+            !"an interpreter for a virtual machine according to the specifications" 
+            !"A 2D simulation of a supermarket with customers, cash registers, and various aisles"
+            !"A 2D simulation of a supply chain with trucks, containers, and ships"
+            !"An interpreter for a Python-like language (with a parser for an extra challenge)"
+            !"An interpreter for the lambda calculus  (with a parser for an extra challenge)"
+          ]
 
         TextBlock @"We will get together at the end of the course, and the teacher(s) will ask you to \textbf{individually} perform some activities on the code to prove understanding and familiarity."
       ]

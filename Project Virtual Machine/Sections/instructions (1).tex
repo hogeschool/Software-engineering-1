@@ -1,0 +1,90 @@
+When the SVM execute a statement, it performs 3 steps:
+
+\begin{itemize}
+	\item Check if the operands are type-compatible (according to the definition below). If they are not, it throws a runtime error.
+	\item If the operand test succeeds, then it executes the instruction behaviour (see the table below).
+	\item After executing the instruction, it increases the program counter by 1 \textbf{only if the instruction behaviour does not change the program counter, namely for the jump instructions}.
+\end{itemize}
+
+Below you find the details of all the operators accepted by the SVM language. Note that an argument which is an address can be either a \textit{Memory address} or a \texttt{Register reference}, as described above.
+
+\begin{longtable}{|p{1cm}|p{2cm}|p{2cm}|p{5cm}|}
+	\hline
+	\textbf{Name} & \textbf{Arg1} & \textbf{Arg2} & \textbf{Behaviour} \\
+	\hline
+	NOP & None & None & This statement does not do anything and it leaves the state of the SVM unchanged. \\
+	\hline
+	MOV & Address or Register & Register, Address, or Constant & Copy the content or value of Arg2 into Arg1. If the memory address is out of range then it throws a runtime exception. \\
+	\hline
+	AND & Register & Register, Address, or Constant & If both arguments are $>=$ 0 then it stores 1 into Arg1, otherwise -1. It accepts only integer numbers, otherwise it raises a runtime exception. \\
+	\hline
+	OR & Register & Register, Address, or Constant & If both arguments are $<$ 0 then it stores -1 into Arg1, otherwise 1. It accepts only integer numbers, otherwise it raises a runtime exception. \\
+	\hline
+	NOT & Register & None & If the argument is non-negative, it stores -1 in Arg1, otherwise it stores 0. It accepts only an integer number, otherwise it raises a runtime exception. \\
+	\hline
+	MOD & Register & Register, Address, or Constant & It computes the modulus operation (remainder of the integer division) with Arg1 and Arg2 and stores the result in Arg1. It accepts only numerical arguments (integer or float), otherwise it raises a runtime exception. \\
+	\hline
+	ADD & Register & Register, Address, or Constant & It computes the sum operation with Arg1 and Arg2 and stores the result in Arg1. It accepts only numerical arguments (integer or float), otherwise it raises a runtime exception. \\
+	\hline
+	SUB & Register & Register, Address, or Constant & It computes the difference operation with Arg1 and Arg2 and stores the result in Arg1. It accepts only numerical arguments (integer or float), otherwise it raises a runtime exception. \\
+	\hline
+	MUL & Register & Register, Address, or Constant & It computes the multiplication operation with Arg1 and Arg2 and stores the result in Arg1. It accepts only numerical arguments (integer or float), otherwise it raises a runtime exception. \\
+	\hline
+	DIV & Register & Register, Address, or Constant & It computes the division operation with Arg1 and Arg2 and stores the result in Arg1. Note that with integers you do the integer division and with floats the floating point division. It accepts only numerical arguments (integer or float), otherwise it raises a runtime exception. \\
+	\hline
+	CMP & Register & Register, Address, or Constant & It compares the two arguments, returning -1 if Arg1 $<$ Arg2, 0 if they are equal, 1 if Arg1 $>$ Arg2. The result is stored in Arg1. It accepts only numerical values otherwise it raises a runtime exception. \\
+	\hline
+	\# & Id & None & The operator defines a label with the name specified in Arg1. It is not allowed to define labels with the same name, so in this case a runtime error should be raised. \\
+	\hline
+	JMP & Id & None & Jump at the point of the program where the label with the name in Arg1 is defined. This instruction modifies the program counter to do so. \\
+	\hline
+	JC & Id & Register & Jump at the point of the program where the label with the name in Arg1 is defined, if Arg2 is $>=$ 0. This instruction modifies the program counter to do so. \\
+	\hline
+	JEQ & Id & Register & Jump at the point of the program where the label with the name in Arg1 is defined, if Arg2 is 0. This instruction modifies the program counter to do so. \\
+	\hline
+\end{longtable}
+
+\noindent
+A further note on JC and JEQ: you use these instructions in combination with the CMP instruction. First you run CMP to compare the values, and then you use its result in the JC or JEQ instruction.
+
+\vspace{0.5cm}
+\noindent
+\textbf{Example:} Consider the program
+
+\begin{lstlisting}
+if (x > 0)
+{
+  x -= 1;
+}
+else
+{
+  x += 1
+}
+\end{lstlisting}
+
+\noindent
+this will be translated in Assembly SVM, assuming that the value of \texttt{x} is stored at the memory address 15, as:
+
+\begin{lstlisting}
+//move the content of address 15 in reg1
+mov reg1 [15]
+//move the constant 0 in reg2
+mov reg2 0 
+//compare reg1 with reg2
+cmp reg1 reg2
+//negate the result (we want to jump if x <= 0)
+not reg1
+jc else reg1
+//move back x into reg1 (it has been overwritten)
+mov reg1 [15]
+// x -= 1
+sub reg1 1
+//skip the else block 
+jmp endif
+#else
+// x += 1
+add reg1 1
+#endif
+//update the variable
+mov [15] reg1
+\end{lstlisting}
