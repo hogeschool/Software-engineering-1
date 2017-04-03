@@ -98,8 +98,9 @@ type Program =
   }
   with
     override this.ToString() =
+      "===== PROGRAM =====\n\n" +
       (this.Statements |> 
-       List.fold(fun s stmt -> s + (string stmt) + "\n") "") + "\n\n-----Variables-----\n\n" + "{\n" +
+       List.fold(fun s stmt -> s + (string stmt) + "\n") "") + "\n\n==== VARIABLES ====\n\n" + "{\n" +
       (this.Variables |>
        Map.fold(fun s id value -> s + (sprintf "  %s --> %s\n" id (string value))) "") + "}"
     static member Create(statements : Statement list) =

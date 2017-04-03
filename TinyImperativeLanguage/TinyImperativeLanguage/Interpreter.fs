@@ -132,23 +132,32 @@ let rec evalStmt (vars: Map<string,Literal>) (stmt : Statement) =
       List.fold (fun updatedVars stmt -> evalStmt updatedVars stmt) vars 
   | IfElse(condition,_then,_else) ->
       let evalCondition = evalExpr vars condition
-      if (evalCondition = Boolean true) then
-        evalStmt vars _then
-      else
-        evalStmt vars _else
+      match evalCondition with
+      | Boolean _ ->
+        if (evalCondition = Boolean true) then
+          evalStmt vars _then
+        else
+          evalStmt vars _else
+      | _ -> raise(RuntimeError "The condition of an if-statement must be a boolean")
   | If(condition,_then) ->
       let evalCondition = evalExpr vars condition
-      if (evalCondition = Boolean true) then
-        evalStmt vars _then
-      else
-        vars
+      match evalCondition with
+      | Boolean _ ->
+        if (evalCondition = Boolean true) then
+          evalStmt vars _then
+        else
+          vars
+      | _ -> raise(RuntimeError "The condition of an if-statement must be a boolean")
   | While(condition,block) ->
       let evalCondition = evalExpr vars condition
-      if (evalCondition = Boolean true) then
-        let newVars = evalStmt vars block
-        evalStmt newVars stmt
-      else
-        vars
+      match evalCondition with
+      | Boolean _ ->
+        if (evalCondition = Boolean true) then
+          let newVars = evalStmt vars block
+          evalStmt newVars stmt
+        else
+          vars
+      | _ -> raise(RuntimeError "The condition of an while-statement must be a boolean")
 
   
 let eval (program : Program) =

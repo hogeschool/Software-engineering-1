@@ -45,7 +45,7 @@ let fizzbuzz =
 [<EntryPoint>]
 let main argv =
   try
-    do printfn "%s" (string (eval factorial))
+    do printfn "%s" (string (eval fizzbuzz))
     0
   with
   | RuntimeError msg -> 
