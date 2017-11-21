@@ -1,7 +1,0 @@
-Build the following simple programs:
-
-1) Define a function reverse, which takes as input a triple and returns it reversed;
-2) Define a NonEmptyList<'a> data structure which can represent a list which can never be empty;
-3) Define a map function which maps a NonEmptyList<'a> to a NonEmptyList<'b> by means of a function 'a->'b;
-4) Define the record Customer, with name and a list of orders; orders are pairs of string and int (item and quantity);
-5) Define a numberOfOrders function which takes a Customer and returns the total number of expected items.
